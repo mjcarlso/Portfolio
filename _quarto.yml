@@ -9,7 +9,13 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
-      - example.qmd
+      - text: GHG
+        menu:
+          - href: ess-696.qmd
+            text: Lesson 1
+          - href: example.qmd
+            text: Lesson 2
+      
 
 format:
   html:

@@ -18,11 +18,11 @@ about:
 
 Talk about myself
 
-\-\--
+\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--
 
 ### **Education**
 
-**Masters** in Ecosystem Science and Sustainability - Carbon Management \| *Colorado State University*
+**Masters** in Ecosystem Science and Sustainability \| *Colorado State University*
 
 2021-2023
 
@@ -30,6 +30,6 @@ Talk about myself
 
 2015 - 2019
 
-\-\--
+\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\--
 
 ### **Experience**
