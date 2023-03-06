@@ -1,11 +1,35 @@
 ---
 title: "Greenhouse Gas Accounting Portfolio"
+image: carlson.png
+about: 
+  template: trestles
+  image-shape: rounded
+  image-width: 15em
+  links:
+    - text: Email
+      href: mailto:madelinejcarlson@gmail.com
+    - text: LinkedIn
+      href: https://www.linkedin.com/in/madeline-carlson-212662160/
+    - text: GitHub
+      href: https://github.com/mjcarlso
 ---
 
-This is a Quarto website.
+## **Madeline Carlson**
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+Talk about myself
 
-```{r}
-1 + 1
-```
+\-\--
+
+### **Education**
+
+**Masters** in Ecosystem Science and Sustainability - Carbon Management \| *Colorado State University*
+
+2021-2023
+
+**Bachelors** in Environmental Studies \| *Kenyon College*
+
+2015 - 2019
+
+\-\--
+
+### **Experience**
