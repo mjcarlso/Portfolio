@@ -9,13 +9,30 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
-      - text: GHG
+      - text: Agriculture
         menu:
-          - href: ess-696.qmd
+          - href: UreaEmissions.qmd
+            text: Urea Emissions Function
+          - href: example.qmd
+            text: Lesson 2
+      - text: Transportation
+        menu:
+          - href: example.qmd
             text: Lesson 1
           - href: example.qmd
             text: Lesson 2
-      
+      - text: Electricity
+        menu:
+          - href: example.qmd
+            text: Lesson 1
+          - href: example.qmd
+            text: Lesson 2
+      - text: Miscilaneous Skills
+        menu:
+          - href: example.qmd
+            text: Lesson 1
+          - href: example.qmd
+            text: Lesson 2
 
 format:
   html:

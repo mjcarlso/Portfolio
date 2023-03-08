@@ -1,0 +1,210 @@
+---
+title: "Urea Emissions Function"
+---
+
+# Urea Fertilization
+
+This function was developed by M. Carlson
+
+Origionally developed: 8/25/2022
+
+Last updated:
+
+Data used in this function is in
+
+```{r, include = F}
+library(triangle)
+library(dplyr)
+library(tidyr)
+library(readr)
+```
+
+```{r}
+"Urea.Fert.Emisssions"<-
+  function(input.file = "name", nyears = 31, states = 50, EF = .2, EF.min = .1,
+           EF.max = .2, nreps = 10000, iseed = 213456, return.option = 1)
+    # Input data converted from N to Urea
+    
+##### Begin script
+  {
+    # Seed seed
+    set.seed(iseed)
+    
+    ####### Import files
+    input.data<-read.csv(file = input.file)
+    
+    ####### Check Validity of Input Data
+    # Numeric
+    for (n in 1:(nyears*2)) {
+      input.data[,n+1]<-as.numeric(input.data[,n+1])
+    }
+    
+    # Urea Amounts
+    for (y in (1:nyears)){
+      for (t in (1:states)){
+    check.urea<-input.data[t,y+1]>0
+    if(!check.urea){stop("Error: Data is zero or negative.")}
+      }
+    }
+    
+    # SD
+    for (y in (1:nyears)){
+      for (t in (1:states)){
+        check.sd<-input.data[t,y+1+nyears]>0
+        if(!check.sd){stop("Error: Data is zero or negative.")}
+      }
+    }
+    
+    
+    ######## Deterministic results
+    Deterministic.CO2C<-matrix(0, nrow = states, ncol = nyears)
+    for(y in (1:nyears)){
+      for(d in (1:states)){
+        Deterministic.CO2C[d,y]<-(input.data[d,y+1]*EF)
+      }
+    }
+    
+    ##
+    Deterministic.CO2C.total<-apply(Deterministic.CO2C, MAR = 2, FUN = "sum")
+    Deterministic.CO2.total<-(Deterministic.CO2C.total*(44/12)/10^6)
+    Deterministic.CO2<-Deterministic.CO2C*(44/12)/10^6
+      
+    ######## Sim nreps 
+    # EF
+    EF.sim<-rtriangle(nreps, a = EF.min, b = EF.max, c = EF)  
+    
+    
+    q.factor<-quantile(EF.sim, probs = c(.05,1))
+    down.factor<-q.factor[1]
+    up.factor<-q.factor[2]
+    
+    # Urea
+    urea.sim<-matrix(0, nrow = states*nyears, ncol = nreps)
+    for (y in (1:nyears)) {
+      for (t in (1:states)) {
+        urea.sim[t+(y-1)*50,]<-rnorm(n = nreps, mean = input.data[t, y+1], 
+                                sd = input.data[t, y+1+nyears])
+      }
+    }
+    
+    ######## Probabilistic results
+    Probabilistic.CO2C<-matrix(0, nrow = states*nyears, ncol = nreps)
+    for (y in 1:nyears) {
+      for (s in 1:states) {
+        Probabilistic.CO2C[s+(states*(y-1)),]<-EF.sim*urea.sim[s+(states*(y-1)),]
+      }
+    }
+    
+    
+    # find mode
+    mode<-function(x){which.max(tabulate(x))}
+  
+    results.mode<-apply(Probabilistic.CO2C, 1, mode)
+    results.mode<-as.data.frame(results.mode)
+    
+    
+    
+    # Convert to Gg CO2
+    results.mode<-(results.mode*(44/12)/10^6)
+
+    # Make into readable df
+    State<-rep(c("Alabama","Alaska","Arizona","Arkansas","California","Colorado",
+             "Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois",
+             "Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts",
+             "Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada",
+             "New Hampsire","New Jersey","New Mexico","New York","North Carolina","North Dakota",
+             "Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina",
+             "South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia",
+             "Wisconsin","Wyoming"),times=nyears)
+    results.mode$State<-data.frame(State)
+
+    newinput<-input.data[,1:32]
+    newinput<-newinput%>%
+      pivot_longer(!State, names_to = "Year", values_to = "Urea")
+    newinput<-newinput[order(newinput$Year),]
+    results.mode$xYear<-newinput$Year
+    
+    results.mode$emissions<-results.mode$results.mode
+    results.mode<-results.mode[,2:4]
+    
+    Probabilistic.CO2<-results.mode%>%
+      pivot_wider(names_from = "xYear", values_from = "emissions")
+    
+  mode2<-function(v, n=2){
+    v<-round(v,n)
+    u<-unique(v)
+    u[which.max(tabulate(match(v,u)))]
+  }
+    
+    
+Prob.CO2C.state<-matrix(0, nrow = states*nyears, ncol = 3)
+for (y in (1:(nyears*states))) {
+  Prob.CO2C.state[y,1]<-mode2(Probabilistic.CO2C[y,])
+  q<-quantile(Probabilistic.CO2C[y,], probs = c(.05,1))
+  Prob.CO2C.state[y,2]<-q[1]
+  Prob.CO2C.state[y,3]<-q[2]
+}
+
+Prob.CO2.state<-(Prob.CO2C.state*(44/12)/10^6)
+colnames(Prob.CO2.state)<-c("Mode", "5 Percentile", "100 Percentile")
+rownames(Prob.CO2.state)<-State
+Prob.CO2.state<-as.data.frame(Prob.CO2.state)
+Prob.CO2.state$xYear<-newinput$Year
+
+  
+  
+    ##### Total probabilistic  per year
+    
+    Probabilistic.CO2C.total.US<-matrix(0, nrow = nyears, ncol = nreps)
+    for (y in (1:nyears)){
+     Probabilistic.CO2C.total.US[y,]<-apply(Probabilistic.CO2C[(1+(50*(y-1))):(50+(50*(y-1))),], MARG = 2, FUN = "sum")
+    }
+    
+    Total.emissions.results.CO2C<-matrix(0, nrow = nyears, ncol = 3)
+    for (y in (1:nyears)) {
+     Total.emissions.results.CO2C[y,1]<-mode2(Probabilistic.CO2C.total.US[y,1]) 
+     q<-quantile(Probabilistic.CO2C.total.US[y,1], probs = c(.05,1))
+     Total.emissions.results.CO2C[y,2]<-q[1]
+     Total.emissions.results.CO2C[y,3]<-q[2]
+    }
+    
+    Total.emissions.results<-(Total.emissions.results.CO2C*(44/12)/10^6)
+    colnames(Total.emissions.results)<-c("Mode", "5 Percentile", "100 Percentile")
+    rownames(Total.emissions.results)<-c(1990:2020)
+    
+    ######## Check that probabilistic is less than or equal to deterministic
+    # per state per year
+   # for (y in (1:nyears)){
+   #   for (t in (1:states)){
+    #    check.results<-Probabilistic.CO2[t,y]<=Deterministic.CO2[t,y]
+     #   if(!check.results){stop("Error: Probabilistic emissions are too high.")}}}
+    
+    # per country per year
+    #for (y in (1:nyears)){
+     #   check.results.total<-Probabilistic.CO2.total[,y]<=Deterministic.CO2.total[,y]
+      #  if(!check.results.total){stop("Error: Total probabilistic emissions for the 
+       #                               country are too high.")}}
+    
+    ######## Return Statement
+    if(return.option == 1){
+      return(Total.emissions.results)
+    }
+    if(return.option == 2){
+      return(Prob.CO2.state)
+    }
+    if(return.option == 3){
+      return(Deterministic.CO2)
+    }
+    
+    
+###### End script
+    }
+```
+
+# Result Exploration
+
+```{r}
+Total.Emissions.year<-Urea.Fert.Emisssions(input.file = "data/US-Urea1990-2020.csv", return.option = 1)
+head(Total.Emissions.year)
+
+```
