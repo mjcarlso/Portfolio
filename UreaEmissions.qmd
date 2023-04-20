@@ -1,12 +1,12 @@
 ---
-title: "Urea Emissions Function"
+title: "Urea Fertilization Emissions"
 ---
 
-# Urea Fertilization
+# Function
 
 This function was developed by M. Carlson
 
-Origionally developed: 8/25/2022
+Originally developed: 8/25/2022
 
 Last updated:
 

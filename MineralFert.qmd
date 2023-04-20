@@ -1,0 +1,370 @@
+---
+title: "Mineral Fertilization Emissions"
+---
+
+# Model Fit
+
+```{r, eval=FALSE}
+# Regression analysis using linear mixed effect model
+# load nlme package
+library(nlme)
+####### Management Factor
+# Read data from csv file
+management.data<-read.csv("SoilCManagement.csv", header = T)
+# Test for correlation in predictor variables
+cor(management.data[, c("years", "dep1", "dep2")])
+# Fit full model with all variables as main effects for input
+test.fit<-lme(ch.cstock~ch.till+years+years2+dep1+dep2+moisture+temp,
+              random=~1|ran.exp/ran.yrexp, data = management.data, method = "ML",
+              na.action = na.omit)
+summary(test.fit)
+# Diagnostic Plots, Residual Plot
+resid<-residuals(test.fit)
+plot(fitted(test.fit), resid)
+abline(0,0)
+# QQ normal plot
+qqnorm(resid)
+qqline(resid)
+# Full model
+test.fit<-lme(ch.cstock~ch.till+years+years2+dep1+dep2+moisture+temp,
+              random=~1|ran.exp/ran.yrexp, data = management.data, method = "ML",
+              na.action = na.omit)
+summary(test.fit)
+# Backward stepwise method
+# remove year2
+test.fit<-lme(ch.cstock~ch.till+years+dep1+dep2+moisture+temp,
+              random=~1|ran.exp/ran.yrexp, data = management.data, method = "ML",
+              na.action = na.omit)
+summary(test.fit)
+#remove tempwarm
+test.fit<-lme(ch.cstock~ch.till+years+dep1+dep2+moisture,
+              random=~1|ran.exp/ran.yrexp, data = management.data, method = "ML",
+              na.action = na.omit)
+summary(test.fit)
+# Testing interactions
+test.fit<-lme(ch.cstock~ch.till+years+dep1+dep2+moisture+ch.till*years+ch.till*dep1+
+                ch.till*dep2+ch.till*moisture+years*dep1+years*dep2+years*moisture+
+                dep1*moisture+dep2*moisture,
+                random=~1|ran.exp/ran.yrexp, data = management.data, method = "ML",
+                na.action = na.omit)
+summary(test.fit)
+# remove year and moisture interaction
+test.fit<-lme(ch.cstock~ch.till+years+dep1+dep2+moisture+ch.till*years+ch.till*dep1+
+                ch.till*dep2+ch.till*moisture+years*dep1+years*dep2+
+                dep1*moisture+dep2*moisture,
+              random=~1|ran.exp/ran.yrexp, data = management.data, method = "ML",
+              na.action = na.omit)
+summary(test.fit)
+# remove tillage and moisture interaction
+test.fit<-lme(ch.cstock~ch.till+years+dep1+dep2+moisture+ch.till*years+ch.till*dep1+
+                ch.till*dep2+years*dep1+years*dep2+
+                dep1*moisture+dep2*moisture,
+              random=~1|ran.exp/ran.yrexp, data = management.data, method = "ML",
+              na.action = na.omit)
+summary(test.fit)
+# final model
+test.fit.management<-lme(ch.cstock~ch.till+years+dep1+dep2+moisture+ch.till*years+ch.till*dep1+
+                ch.till*dep2+years*dep1+years*dep2+
+                dep1*moisture+dep2*moisture,
+              random=~1|ran.exp/ran.yrexp, data = management.data, method = "REML",
+              na.action = na.omit)
+summary(test.fit.management)
+# Retest assumptions
+# Diagnostic plots
+plot(fitted(test.fit.management), resid)
+abline(0,0)
+# QQ normal plot
+qqnorm(resid)
+qqline(resid)
+# derive PDF
+fixed.management<-fixed.effects(test.fit.management)
+management.cov<-test.fit.management$varFix
+# variables
+x.rt.wet<-c(1, 1, 20, 15, 300, 1, 20, 15, 300, 300, 6000, 15, 300)
+x.rt.dry<-c(1, 1, 20, 15, 300, 0, 20, 15, 300, 300, 6000, 0, 0)
+x.nt.wet<-c(1, 0, 20, 15, 300, 1, 0, 0, 0, 300, 6000, 15, 300)
+x.nt.dry<-c(1, 0, 20, 15, 300, 0, 0, 0, 0, 300, 6000, 0, 0)
+# estimates
+t(x.rt.wet)%*%fixed.management
+t(x.rt.dry)%*%fixed.management
+t(x.nt.wet)%*%fixed.management
+t(x.nt.dry)%*%fixed.management
+# variance
+v.rt.wet<-(t(x.rt.wet)%*%management.cov%*%x.rt.wet)
+v.rt.dry<-(t(x.rt.dry)%*%management.cov%*%x.rt.dry)
+v.nt.wet<-(t(x.nt.wet)%*%management.cov%*%x.nt.wet)
+v.nt.dry<-(t(x.nt.dry)%*%management.cov%*%x.nt.dry)
+# standard deviation
+sqrt(v.rt.wet)
+sqrt(v.rt.dry)
+sqrt(v.nt.wet)
+sqrt(v.nt.dry)
+
+
+
+#making a matrix of the estimates
+estimates<-matrix(data = 0, nrow = 2, ncol = 2)
+rownames(estimates)<- c("rt", "nt")
+colnames(estimates)<- c("wet", "dry")
+
+estimates[1,1]<-t(x.rt.wet)%*%fixed.management
+estimates[1,2]<-t(x.rt.dry)%*%fixed.management
+estimates[2,1]<-t(x.nt.wet)%*%fixed.management
+estimates[2,2]<-t(x.nt.dry)%*%fixed.management
+estimates
+
+#same thing for the variance
+variance<-matrix(data = 0, nrow = 2, ncol = 2)
+rownames(variance)<- c("rt", "nt")
+colnames(variance)<- c("wet", "dry")
+
+variance[1,1]<-t(x.rt.wet)%*%management.cov%*%x.rt.wet
+variance[1,2]<-t(x.rt.dry)%*%management.cov%*%x.rt.dry
+variance[2,1]<-t(x.nt.wet)%*%management.cov%*%x.nt.wet
+variance[2,2]<-t(x.nt.dry)%*%management.cov%*%x.nt.dry
+variance
+
+
+#standard deviation
+sd<-sqrt(variance)
+sd
+
+
+
+#upper estimate and lower estimate
+lower.estimates<-estimates-1.96*sd
+upper.estimates<-estimates+1.96*sd
+
+list("Mean.ch.cstock"=Mean.ch.cstock,
+     "Estimates.LME"=estimates,
+     "SDs.mean.ch.cstock"=SD.ch.cstock,
+     "SD.LME"=sd,
+     "lower.estimates.LME"=lower.estimates,
+     "upper.estimates.LME"=upper.estimates)
+
+
+```
+
+# Function
+
+```{r, eval=FALSE}
+"SynFert.N2O.emissions.Regression"<-
+  function(mineralN.amount = 75, mineralN.amount.sd = 5, beta = a, cov.beta = b, MAPPET = 1,
+           nreps = 10000, iseed = 230984, return.option = 1)
+# Script developed by: M. Carlson
+    # Originally developed: 3/2/2022
+    # Last updated:3/2/2022
+    # script estimates N2O emissions (kg CO2 eq. per ha per year) from mineral N fertilization
+    # based on LME model
+    # Note: Make sure that beta and cov.beta are loaded in R working session
+    #
+    ####### Arguments
+    # mineralN.amount       The amount of mineral N fertilizer added to soil (KG N per ha)
+    # mineralN.amount.sd    Standard deviation of the N mineral fertilizer amount
+    # MAPPET                Mean annual precipitation to potential evapotranspiration ratio
+    # beta                  R object with betas from LME model
+    # cov.beta              R object with covariance matrix for betas from LME model
+    # nreps                 Number of Monte Carlo simulations
+    # iseed                 Initial seed for random draws
+    # return.option         1) list object with the emission mean and confidence intervals
+    #                       for N2O emissions, and 2) the full vector of all Monte Carlo
+    #                       simulations.
+##
+####### Begin Script
+  {
+    ####### Set seed
+    set.seed(iseed)
+    ####### Check validity of input variables
+    # values equal to or greater than 0 are valid
+    check.mineralN.amount<-mineralN.amount>=0&mineralN.amount<=880
+    if(!check.mineralN.amount) {stop("Mineral N amount is not valid.")
+    } else {cat("NOTE: Mineral N amount is valid.")}
+    check.mineralN.amount.sd<-mineralN.amount.sd>=0
+    if(!check.mineralN.amount.sd) {stop("Mineral N standard deviation is not valid.")
+    } else {cat("NOTE: Mineral N standard deviation is valid.")}
+    check.MAPPET<-MAPPET>=0.7&MAPPET<=3.3
+    if(!check.MAPPET) {stop("MAP:PET ratio is not valid.")
+    } else{cat("NOTE: MAP:PET ratio is valid.")}
+    # End Validity checks
+    ##
+####### Estimate direct N2O emissions using linear mixed effect model.
+    # Deterministic Calculation
+    # estimate emissions and backtransform
+    direct.emission.deterministic.ln<-beta%*%t(cbind(1, mineralN.amount, MAPPET))
+    direct.emission.deterministic<-(exp(direct.emission.deterministic.ln))*(44/28)*298
+    # Probabilistic Calculation
+    # Simulate nreps of fertilizer amounts
+    mineralN.amount.sim <- rnorm(nreps, mean = mineralN.amount,
+                                 sd = mineralN.amount.sd)
+    # simulate nreps of beta parameters based on LME model
+    # determine number of parameters
+    numpar<-length(beta)
+    # Compute choleski decomposition
+    M<-t(chol(cov.beta))
+    #
+    # generate random normals
+    z<-matrix(rnorm(nreps*numpar), numpar, nreps)
+    # produce simulated betas
+    sim.beta<-M%*%z+beta
+    # create results matrix
+    direct.emission.sim.ln<-matrix(0, 1, nreps)
+    #simulate direct emissions
+    for (n in 1:nreps) {
+    direct.emission.sim.ln[n]<-sim.beta[,n]%*%t(cbind(1, mineralN.amount.sim[n], MAPPET))  
+    }
+    # backtransform and convert into kg CO2 eq.
+    direct.emission.sim<-(exp(direct.emission.sim.ln)) * (44/28) * 298
+    ## End emission calculations
+    #
+    ####### Final Summary Calculations and Validity Checks
+    direct.emission.mean<-mean(direct.emission.sim)
+    q.direct<-quantile(direct.emission.sim, probs = c(0.025, 0.975))
+    down.direct<-q.direct[1]
+    up.direct<-q.direct[2]
+    check.direct<-(direct.emission.deterministic>=down.direct) &
+                  (direct.emission.deterministic<=up.direct)
+    if(!check.direct) {
+      cat("Warning: Deterministic Solution for Direct Emissions is outside
+          of its respective confidence interval.")
+    }
+    if(check.direct) {
+      cat("NOTE: Deterministic Solution for Direct Emissions is within
+          its respective confidence interval.")
+    }
+    ##
+    #
+####### Return Statement
+    if(return.option == 1) {
+      return(list("direct.N2O.emissions.kgCO2eq" = direct.emission.mean,
+                  "2.5percentile.direct.N2O.emissions" = down.direct,
+                  "97.5percentile.direct.N2O.emissions" = up.direct))
+    }
+    if(return.option == 2) {
+      return(direct.emission.sim)
+    } else {stop("Return option is not valid.")}
+    #
+    #End return
+####### End Script    
+  }
+
+
+```
+
+# Fitting N2O Model
+
+```{r, eval=FALSE}
+# Read data from csv file
+fert.n2o.data<-read.csv("FertN2Odata.csv", header = T)
+# points (x = fert.n2o.data$fert.n2odata, y = fert.n2o.data$emission.kgN2ONhayr)
+# load nlme package
+library(nlme)
+# test for correlation in predictor variables
+cor(fert.n2o.data[,c("fert.amt.kgha", "TEMP.C", "MAPPET", "PREC.MM")])
+# Model Selection using AIC value and forward stepwise method
+test.fit<-lme(emission.kgN2ONhayr~fert.amt.kgha, random = ~1|ran.exp, 
+              data = fert.n2o.data, method = "ML")
+summary(test.fit)
+# Diagnostic Plots, Residual Plot
+resid<-residuals(test.fit)
+plot(fitted(test.fit), resid) # fitted vs residual plot
+abline(0,0)
+# qqplot cannot be tested due to lack of equality in variance
+
+# Transformed data
+fert.n2o.data$ln.emission.kgN2ONhayr<-log(fert.n2o.data$emission.kgN2ONhayr)
+test.fit<-lme(ln.emission.kgN2ONhayr~fert.amt.kgha, random = ~1|ran.exp, 
+              data = fert.n2o.data, method = "ML")
+summary(test.fit)
+# Diagnostic Plots, Residual Plot
+resid<-residuals(test.fit)
+plot(fitted(test.fit), resid) # fitted vs residual plot
+abline(0,0)
+# QQ normal plot
+qqnorm(resid)
+qqline(resid)
+
+#One Variable
+test.fit<-lme(ln.emission.kgN2ONhayr~fert.amt.kgha, random = ~1|ran.exp, 
+              data = fert.n2o.data, method = "ML")
+summary(test.fit)
+test.fit<-lme(ln.emission.kgN2ONhayr~TEMP.C, random = ~1|ran.exp, 
+              data = fert.n2o.data, method = "ML")
+summary(test.fit)
+test.fit<-lme(ln.emission.kgN2ONhayr~MAPPET, random = ~1|ran.exp, 
+              data = fert.n2o.data, method = "ML")
+summary(test.fit)
+test.fit<-lme(ln.emission.kgN2ONhayr~PREC.MM, random = ~1|ran.exp, 
+              data = fert.n2o.data, method = "ML")
+summary(test.fit)
+
+# Two Variables
+test.fit<-lme(ln.emission.kgN2ONhayr~fert.amt.kgha+MAPPET, random = ~1|ran.exp, 
+              data = fert.n2o.data, method = "ML")
+summary(test.fit)
+test.fit<-lme(ln.emission.kgN2ONhayr~fert.amt.kgha+PREC.MM, random = ~1|ran.exp, 
+              data = fert.n2o.data, method = "ML")
+summary(test.fit)
+test.fit<-lme(ln.emission.kgN2ONhayr~fert.amt.kgha+TEMP.C, random = ~1|ran.exp, 
+              data = fert.n2o.data, method = "ML")
+summary(test.fit)
+
+# Three Variables
+# don't need to test precip because it's highly correlated with MAPPET
+test.fit<-lme(ln.emission.kgN2ONhayr~fert.amt.kgha+MAPPET+TEMP.C, random = ~1|ran.exp, 
+              data = fert.n2o.data, method = "ML")
+summary(test.fit)
+# Test interactions
+test.fit<-lme(ln.emission.kgN2ONhayr~fert.amt.kgha+MAPPET+fert.amt.kgha*MAPPET, random = ~1|ran.exp, 
+              data = fert.n2o.data, method = "ML")
+summary(test.fit)
+
+
+
+# Best fit model
+test.fit<-lme(ln.emission.kgN2ONhayr~fert.amt.kgha+MAPPET, random = ~1|ran.exp, 
+              data = fert.n2o.data, method = "ML")
+summary(test.fit)
+#
+# Extract betas and covariance matrix to apply the model
+N2O.fixed<-fixed.effects(test.fit)
+N2O.cov.beta<-test.fit$varFix
+##
+#
+
+
+a = N2O.fixed
+b = N2O.cov.beta
+
+
+
+
+```
+
+# Execute Function
+
+```{r, eval=FALSE}
+dryclimate<-SynFert.N2O.emissions.Regression( mineralN.amount = 75, mineralN.amount.sd = 5, 
+                                                beta = a, cov.beta = b, MAPPET = .7,
+                                            nreps = 10000, iseed = 230984, return.option = 1)
+dryclimate
+
+dryclimate2<-SynFert.N2O.emissions.Regression( mineralN.amount = 75, mineralN.amount.sd = 5, 
+                                              beta = a, cov.beta = b, MAPPET = .7,
+                                              nreps = 10000, iseed = 230984, return.option = 2)
+hist(dryclimate2)
+
+wetclimate<-SynFert.N2O.emissions.Regression( mineralN.amount = 75, mineralN.amount.sd = 5, beta = a, 
+                                                cov.beta = b, MAPPET = 1,
+                                                nreps = 10000, iseed = 230984, return.option = 1)
+wetclimate
+
+wetclimate2<-SynFert.N2O.emissions.Regression( mineralN.amount = 75, mineralN.amount.sd = 5, beta = a, 
+                                              cov.beta = b, MAPPET = 1,
+                                              nreps = 10000, iseed = 230984, return.option = 2)
+hist(wetclimate2)
+
+
+
+
+
+```

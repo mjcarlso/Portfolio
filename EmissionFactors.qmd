@@ -1,0 +1,274 @@
+---
+title: "Estimate Emission Factors"
+---
+
+```{r, eval=FALSE}
+####### Libraries
+library(nlme)
+library(ggplot2)
+
+
+####### Data
+
+Cultivation<-read.csv("SoilCCult.csv")
+Management<-read.csv("SoilCManagement.csv")
+Input<-read.csv("SoilCInput.csv")
+
+
+# ------------------------ Cultivation-------------------------------
+#Data Visualization
+ggplot(Cultivation, aes(years))+
+  geom_histogram()
+ggplot(Cultivation, aes(dep1))+
+  geom_histogram()
+ggplot(Cultivation, aes(dep2))+
+  geom_histogram()
+ggplot(Cultivation, aes(cult.stock))+
+  geom_histogram()
+ggplot(Cultivation, aes(ch.cstock))+
+  geom_histogram()
+ggplot(Cultivation, aes(nat.stock))+
+  geom_histogram()
+ggplot(Cultivation, aes(x = ipcc.temp))+
+  geom_bar()
+ggplot(Cultivation, aes(x = ipcc.soil))+
+  geom_bar()
+ggplot(Cultivation, aes(x = ipcc.prec))+
+  geom_bar()
+ggplot(Cultivation, aes(x = aquic))+
+  geom_bar()
+
+####### model
+cor(Management[c("years", "years2", "dep1", "dep2")])
+
+test.fit<-lme(ch.cstock~years+years2+dep1+dep2+ipcc.temp+ipcc.soil+ipcc.prec,
+              random=~1|ran.exp/ran.yrexp,data=Cultivation,method="ML",
+              na.action=na.omit)
+plot(test.fit)
+qqnorm(test.fit)
+
+test.fit1<-lme(ch.cstock~years+years2+dep1+dep2+ipcc.temp+ipcc.soil+ipcc.prec,
+              random=~1|ran.exp/ran.yrexp,data=Cultivation,method="ML",
+              na.action=na.omit)
+
+# AIC Go up by two when removing variable (down by 2 when adding)
+summary(test.fit1)
+
+# remove soil
+test.fit1<-lme(ch.cstock~years+years2+dep1+dep2+ipcc.temp+ipcc.prec,
+               random=~1|ran.exp/ran.yrexp,data=Cultivation,method="ML",
+               na.action=na.omit)
+summary(test.fit1)
+
+
+# Best model
+cult.fit<-lme(ch.cstock~years+years2+dep1+dep2,
+               random=~1|ran.exp/ran.yrexp,data=Cultivation,method="REML",
+               na.action=na.omit)
+summary(cult.fit)
+
+# pdf
+fixed.cult<-fixed.effects(cult.fit)
+cult.cov<-cult.fit$varFix
+
+fixed.cult
+cult.cov
+
+x.cult<-c(1, 75, 5625, 15, 300)
+t(x.cult)%*%fixed.cult
+v.cult<-(t(x.cult)%*%cult.cov%*%x.cult)
+sqrt(v.cult)
+
+
+# ------------------------ Input -------------------------------
+# Data Visualization
+ggplot(Input, aes(years))+
+  geom_histogram()
+ggplot(Input, aes(dep1))+
+  geom_histogram()
+ggplot(Input, aes(dep2))+
+  geom_histogram()
+ggplot(Input, aes(con.stock))+
+  geom_histogram()
+ggplot(Input, aes(ch.cstock))+
+  geom_histogram()
+ggplot(Input, aes(tr.stock))+
+  geom_histogram()
+ggplot(Input, aes(x = ipcc.temp))+
+  geom_bar()
+ggplot(Input, aes(x = ipcc.soil))+
+  geom_bar()
+ggplot(Input, aes(x = ipcc.pre))+
+  geom_bar()
+ggplot(Input, aes(x = ch.inp))+
+  geom_bar()
+ggplot(Input, aes(x = aquic))+
+  geom_bar()
+
+
+####### model
+cor(Input[c("years", "years2", "dep1", "dep2")])
+
+test.fit2<-lme(ch.cstock~years+years2+dep1+dep2+ipcc.temp+ipcc.pre+ch.inp,
+              random=~1|ran.exp/ran.yrexp,data=Input,method="ML",
+              na.action=na.omit)
+plot(test.fit2)
+qqnorm(test.fit2)
+
+summary(test.fit2)
+
+# remove precip
+test.fit2<-lme(ch.cstock~years+years2+dep1+dep2+ipcc.temp+ch.inp,
+               random=~1|ran.exp/ran.yrexp,data=Input,method="ML",
+               na.action=na.omit)
+summary(test.fit2)
+
+# remove temp (didn't go down enough)
+test.fit2<-lme(ch.cstock~years+years2+dep1+dep2+ch.inp,
+               random=~1|ran.exp/ran.yrexp,data=Input,method="ML",
+               na.action=na.omit)
+summary(test.fit2)
+
+#### Best fit model
+input.fit<-lme(ch.cstock~years+years2+dep1+dep2+ipcc.temp+ch.inp,
+               random=~1|ran.exp/ran.yrexp,data=Input,method="REML",
+               na.action=na.omit)
+summary(input.fit)
+
+# pdf
+fixed.input<-fixed.effects(input.fit)
+input.cov<-input.fit$varFix
+
+fixed.input
+
+warm.low<-c(1, 20, 400, 15, 300, 1, 1)
+warm.high<-c(1, 20, 400, 15, 300, 1, 0)
+cool.low<-c(1, 20, 400, 15, 300, 0, 1)
+cool.high<-c(1, 20, 400, 15, 300, 0, 0)
+
+#Estimates
+t(warm.low)%*%fixed.input
+t(warm.high)%*%fixed.input
+t(cool.low)%*%fixed.input
+t(cool.high)%*%fixed.input
+
+# variance
+v.warm.low<-(t(warm.low)%*%input.cov%*%warm.low)
+v.warm.high<-(t(warm.high)%*%input.cov%*%warm.high)
+v.cool.low<-(t(cool.low)%*%input.cov%*%cool.low)
+v.cool.high<-(t(cool.high)%*%input.cov%*%cool.high)
+
+# standard deviation
+sqrt(v.warm.low)
+sqrt(v.warm.high)
+sqrt(v.cool.low)
+sqrt(v.cool.high)
+
+
+# ---------------------------- Management --------------------------------
+# Data Visualization
+ggplot(Management, aes(years))+
+  geom_histogram()
+ggplot(Management, aes(dep1))+
+  geom_histogram()
+ggplot(Management, aes(dep2))+
+  geom_histogram()
+ggplot(Management, aes(con.stock))+
+  geom_histogram()
+ggplot(Management, aes(ch.cstock))+
+  geom_histogram()
+ggplot(Management, aes(tr.stock))+
+  geom_histogram()
+ggplot(Management, aes(x = ipcc.temp))+
+  geom_bar()
+ggplot(Management, aes(x = ipcc.soil))+
+  geom_bar()
+ggplot(Management, aes(x = ipcc.pre))+
+  geom_bar()
+ggplot(Management, aes(x = ch.till))+
+  geom_bar()
+ggplot(Management, aes(x = aquic))+
+  geom_bar()
+
+
+####### model
+cor(Management[c("years", "years2", "dep1", "dep2")])
+
+test.fit3<-lme(ch.cstock~years2+ipcc.temp+ipcc.soil+ipcc.pre+years+dep1+dep2+aquic+ch.till,
+               random=~1|ran.exp/ran.yrexp,data=Management,method="ML",
+               na.action=na.omit)
+plot(test.fit3)
+qqnorm(test.fit3)
+
+
+# AIC Go up by two when removing variable (down by 2 when adding)
+summary(test.fit3)
+
+# remove aquic
+test.fit3<-lme(ch.cstock~years+years2+dep1+dep2+ipcc.temp+ipcc.soil+ipcc.pre+ch.till,
+               random=~1|ran.exp/ran.yrexp,data=Management,method="ML",
+               na.action=na.omit)
+summary(test.fit3)
+
+# remove soil
+test.fit3<-lme(ch.cstock~years+years2+ipcc.pre+ipcc.temp+dep1+dep2+ch.till,
+               random=~1|ran.exp/ran.yrexp,data=Management,method="ML",
+               na.action=na.omit)
+summary(test.fit3)
+
+# remove precip (keep it in)
+test.fit3<-lme(ch.cstock~years+years2+ipcc.temp+dep1+dep2+ch.till,
+               random=~1|ran.exp/ran.yrexp,data=Management,method="ML",
+               na.action=na.omit)
+summary(test.fit3)
+
+# remove temp
+test.fit3<-lme(ch.cstock~years+years2+ipcc.pre+dep1+dep2+ch.till,
+               random=~1|ran.exp/ran.yrexp,data=Management,method="ML",
+               na.action=na.omit)
+summary(test.fit3)
+
+# Best model
+mgmt.fit<-lme(ch.cstock~years+years2+dep1+dep2+ipcc.pre+ch.till,
+                         random=~1|ran.exp/ran.yrexp,data=Management,method="ML",
+                         na.action=na.omit)
+summary(mgmt.fit)
+
+
+# pdf
+fixed.mgmt<-fixed.effects(mgmt.fit)
+mgmt.cov<-mgmt.fit$varFix
+
+wet.rt<-c(1, 20, 400, 15, 300, 1, 1)
+wet.nt<-c(1, 20, 400, 15, 300, 1, 0)
+dry.rt<-c(1, 20, 400, 15, 300, 0, 1)
+dry.nt<-c(1, 20, 400, 15, 300, 0, 0)
+
+#Estimates
+t(wet.rt)%*%fixed.mgmt
+t(wet.nt)%*%fixed.mgmt
+t(dry.rt)%*%fixed.mgmt
+t(dry.nt)%*%fixed.mgmt
+
+# variance
+v.rt.wet<-(t(wet.rt)%*%mgmt.cov%*%wet.rt)
+v.nt.wet<-(t(wet.nt)%*%mgmt.cov%*%wet.nt)
+v.rt.dry<-(t(dry.rt)%*%mgmt.cov%*%dry.rt)
+v.nt.dry<-(t(dry.nt)%*%mgmt.cov%*%dry.nt)
+
+# standard deviation
+sqrt(v.rt.wet)
+sqrt(v.rt.dry)
+sqrt(v.nt.wet)
+sqrt(v.nt.dry)
+
+
+
+
+
+
+
+
+
+
+```

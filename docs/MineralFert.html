@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Portfolio - Mineral Fertilization Emissions</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Portfolio</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-agriculture" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Agriculture</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-agriculture">    
+        <li>
+    <a class="dropdown-item" href="./MineralFert.html">
+ <span class="dropdown-text">Mineral Fertilization Emissions</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./UreaEmissions.html">
+ <span class="dropdown-text">Urea Fertilization Emissions</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./MonteCarlo.html">
+ <span class="dropdown-text">Advanced Monte Carlo</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-transportation" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Transportation</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-transportation">    
+        <li>
+    <a class="dropdown-item" href="./Transport.html">
+ <span class="dropdown-text">Transportation Emissions</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./GreenTransport.html">
+ <span class="dropdown-text">Green Transportation</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-electricity" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Electricity</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-electricity">    
+        <li>
+    <a class="dropdown-item" href="./Electricity1.html">
+ <span class="dropdown-text">Lesson 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Electricity2.html">
+ <span class="dropdown-text">Lesson 2</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-miscilaneous-skills" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Miscilaneous Skills</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-miscilaneous-skills">    
+        <li>
+    <a class="dropdown-item" href="./EmissionFactors.html">
+ <span class="dropdown-text">Emission Factors</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./example.html">
+ <span class="dropdown-text">Lesson 2</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#model-fit" id="toc-model-fit" class="nav-link active" data-scroll-target="#model-fit">Model Fit</a></li>
+  <li><a href="#function" id="toc-function" class="nav-link" data-scroll-target="#function">Function</a></li>
+  <li><a href="#fitting-n2o-model" id="toc-fitting-n2o-model" class="nav-link" data-scroll-target="#fitting-n2o-model">Fitting N2O Model</a></li>
+  <li><a href="#execute-function" id="toc-execute-function" class="nav-link" data-scroll-target="#execute-function">Execute Function</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Mineral Fertilization Emissions</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="model-fit" class="level1">
+<h1>Model Fit</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Regression analysis using linear mixed effect model</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># load nlme package</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="do">####### Management Factor</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Read data from csv file</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>management.data<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"SoilCManagement.csv"</span>, <span class="at">header =</span> T)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Test for correlation in predictor variables</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(management.data[, <span class="fu">c</span>(<span class="st">"years"</span>, <span class="st">"dep1"</span>, <span class="st">"dep2"</span>)])</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit full model with all variables as main effects for input</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>test.fit<span class="ot">&lt;-</span><span class="fu">lme</span>(ch.cstock<span class="sc">~</span>ch.till<span class="sc">+</span>years<span class="sc">+</span>years2<span class="sc">+</span>dep1<span class="sc">+</span>dep2<span class="sc">+</span>moisture<span class="sc">+</span>temp,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">random=</span><span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>ran.exp<span class="sc">/</span>ran.yrexp, <span class="at">data =</span> management.data, <span class="at">method =</span> <span class="st">"ML"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">na.action =</span> na.omit)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test.fit)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagnostic Plots, Residual Plot</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>resid<span class="ot">&lt;-</span><span class="fu">residuals</span>(test.fit)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(test.fit), resid)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">0</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># QQ normal plot</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(resid)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(resid)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Full model</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>test.fit<span class="ot">&lt;-</span><span class="fu">lme</span>(ch.cstock<span class="sc">~</span>ch.till<span class="sc">+</span>years<span class="sc">+</span>years2<span class="sc">+</span>dep1<span class="sc">+</span>dep2<span class="sc">+</span>moisture<span class="sc">+</span>temp,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>              <span class="at">random=</span><span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>ran.exp<span class="sc">/</span>ran.yrexp, <span class="at">data =</span> management.data, <span class="at">method =</span> <span class="st">"ML"</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>              <span class="at">na.action =</span> na.omit)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test.fit)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Backward stepwise method</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># remove year2</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>test.fit<span class="ot">&lt;-</span><span class="fu">lme</span>(ch.cstock<span class="sc">~</span>ch.till<span class="sc">+</span>years<span class="sc">+</span>dep1<span class="sc">+</span>dep2<span class="sc">+</span>moisture<span class="sc">+</span>temp,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>              <span class="at">random=</span><span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>ran.exp<span class="sc">/</span>ran.yrexp, <span class="at">data =</span> management.data, <span class="at">method =</span> <span class="st">"ML"</span>,</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>              <span class="at">na.action =</span> na.omit)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test.fit)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">#remove tempwarm</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>test.fit<span class="ot">&lt;-</span><span class="fu">lme</span>(ch.cstock<span class="sc">~</span>ch.till<span class="sc">+</span>years<span class="sc">+</span>dep1<span class="sc">+</span>dep2<span class="sc">+</span>moisture,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>              <span class="at">random=</span><span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>ran.exp<span class="sc">/</span>ran.yrexp, <span class="at">data =</span> management.data, <span class="at">method =</span> <span class="st">"ML"</span>,</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>              <span class="at">na.action =</span> na.omit)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test.fit)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Testing interactions</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>test.fit<span class="ot">&lt;-</span><span class="fu">lme</span>(ch.cstock<span class="sc">~</span>ch.till<span class="sc">+</span>years<span class="sc">+</span>dep1<span class="sc">+</span>dep2<span class="sc">+</span>moisture<span class="sc">+</span>ch.till<span class="sc">*</span>years<span class="sc">+</span>ch.till<span class="sc">*</span>dep1<span class="sc">+</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>                ch.till<span class="sc">*</span>dep2<span class="sc">+</span>ch.till<span class="sc">*</span>moisture<span class="sc">+</span>years<span class="sc">*</span>dep1<span class="sc">+</span>years<span class="sc">*</span>dep2<span class="sc">+</span>years<span class="sc">*</span>moisture<span class="sc">+</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>                dep1<span class="sc">*</span>moisture<span class="sc">+</span>dep2<span class="sc">*</span>moisture,</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>                <span class="at">random=</span><span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>ran.exp<span class="sc">/</span>ran.yrexp, <span class="at">data =</span> management.data, <span class="at">method =</span> <span class="st">"ML"</span>,</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>                <span class="at">na.action =</span> na.omit)</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test.fit)</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co"># remove year and moisture interaction</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>test.fit<span class="ot">&lt;-</span><span class="fu">lme</span>(ch.cstock<span class="sc">~</span>ch.till<span class="sc">+</span>years<span class="sc">+</span>dep1<span class="sc">+</span>dep2<span class="sc">+</span>moisture<span class="sc">+</span>ch.till<span class="sc">*</span>years<span class="sc">+</span>ch.till<span class="sc">*</span>dep1<span class="sc">+</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>                ch.till<span class="sc">*</span>dep2<span class="sc">+</span>ch.till<span class="sc">*</span>moisture<span class="sc">+</span>years<span class="sc">*</span>dep1<span class="sc">+</span>years<span class="sc">*</span>dep2<span class="sc">+</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>                dep1<span class="sc">*</span>moisture<span class="sc">+</span>dep2<span class="sc">*</span>moisture,</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>              <span class="at">random=</span><span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>ran.exp<span class="sc">/</span>ran.yrexp, <span class="at">data =</span> management.data, <span class="at">method =</span> <span class="st">"ML"</span>,</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>              <span class="at">na.action =</span> na.omit)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test.fit)</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="co"># remove tillage and moisture interaction</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>test.fit<span class="ot">&lt;-</span><span class="fu">lme</span>(ch.cstock<span class="sc">~</span>ch.till<span class="sc">+</span>years<span class="sc">+</span>dep1<span class="sc">+</span>dep2<span class="sc">+</span>moisture<span class="sc">+</span>ch.till<span class="sc">*</span>years<span class="sc">+</span>ch.till<span class="sc">*</span>dep1<span class="sc">+</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>                ch.till<span class="sc">*</span>dep2<span class="sc">+</span>years<span class="sc">*</span>dep1<span class="sc">+</span>years<span class="sc">*</span>dep2<span class="sc">+</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>                dep1<span class="sc">*</span>moisture<span class="sc">+</span>dep2<span class="sc">*</span>moisture,</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>              <span class="at">random=</span><span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>ran.exp<span class="sc">/</span>ran.yrexp, <span class="at">data =</span> management.data, <span class="at">method =</span> <span class="st">"ML"</span>,</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>              <span class="at">na.action =</span> na.omit)</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test.fit)</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="co"># final model</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>test.fit.management<span class="ot">&lt;-</span><span class="fu">lme</span>(ch.cstock<span class="sc">~</span>ch.till<span class="sc">+</span>years<span class="sc">+</span>dep1<span class="sc">+</span>dep2<span class="sc">+</span>moisture<span class="sc">+</span>ch.till<span class="sc">*</span>years<span class="sc">+</span>ch.till<span class="sc">*</span>dep1<span class="sc">+</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>                ch.till<span class="sc">*</span>dep2<span class="sc">+</span>years<span class="sc">*</span>dep1<span class="sc">+</span>years<span class="sc">*</span>dep2<span class="sc">+</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>                dep1<span class="sc">*</span>moisture<span class="sc">+</span>dep2<span class="sc">*</span>moisture,</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>              <span class="at">random=</span><span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>ran.exp<span class="sc">/</span>ran.yrexp, <span class="at">data =</span> management.data, <span class="at">method =</span> <span class="st">"REML"</span>,</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>              <span class="at">na.action =</span> na.omit)</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test.fit.management)</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Retest assumptions</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagnostic plots</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(test.fit.management), resid)</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">0</span>)</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="co"># QQ normal plot</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(resid)</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(resid)</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="co"># derive PDF</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>fixed.management<span class="ot">&lt;-</span><span class="fu">fixed.effects</span>(test.fit.management)</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>management.cov<span class="ot">&lt;-</span>test.fit.management<span class="sc">$</span>varFix</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="co"># variables</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>x.rt.wet<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">300</span>, <span class="dv">1</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">300</span>, <span class="dv">300</span>, <span class="dv">6000</span>, <span class="dv">15</span>, <span class="dv">300</span>)</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>x.rt.dry<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">300</span>, <span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">300</span>, <span class="dv">300</span>, <span class="dv">6000</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>x.nt.wet<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">300</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">300</span>, <span class="dv">6000</span>, <span class="dv">15</span>, <span class="dv">300</span>)</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>x.nt.dry<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">300</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">300</span>, <span class="dv">6000</span>, <span class="dv">0</span>, <span class="dv">0</span>)</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a><span class="co"># estimates</span></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(x.rt.wet)<span class="sc">%*%</span>fixed.management</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(x.rt.dry)<span class="sc">%*%</span>fixed.management</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(x.nt.wet)<span class="sc">%*%</span>fixed.management</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(x.nt.dry)<span class="sc">%*%</span>fixed.management</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a><span class="co"># variance</span></span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>v.rt.wet<span class="ot">&lt;-</span>(<span class="fu">t</span>(x.rt.wet)<span class="sc">%*%</span>management.cov<span class="sc">%*%</span>x.rt.wet)</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>v.rt.dry<span class="ot">&lt;-</span>(<span class="fu">t</span>(x.rt.dry)<span class="sc">%*%</span>management.cov<span class="sc">%*%</span>x.rt.dry)</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>v.nt.wet<span class="ot">&lt;-</span>(<span class="fu">t</span>(x.nt.wet)<span class="sc">%*%</span>management.cov<span class="sc">%*%</span>x.nt.wet)</span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>v.nt.dry<span class="ot">&lt;-</span>(<span class="fu">t</span>(x.nt.dry)<span class="sc">%*%</span>management.cov<span class="sc">%*%</span>x.nt.dry)</span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="co"># standard deviation</span></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(v.rt.wet)</span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(v.rt.dry)</span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(v.nt.wet)</span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(v.nt.dry)</span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a><span class="co">#making a matrix of the estimates</span></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>estimates<span class="ot">&lt;-</span><span class="fu">matrix</span>(<span class="at">data =</span> <span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(estimates)<span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"rt"</span>, <span class="st">"nt"</span>)</span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(estimates)<span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"wet"</span>, <span class="st">"dry"</span>)</span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>estimates[<span class="dv">1</span>,<span class="dv">1</span>]<span class="ot">&lt;-</span><span class="fu">t</span>(x.rt.wet)<span class="sc">%*%</span>fixed.management</span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>estimates[<span class="dv">1</span>,<span class="dv">2</span>]<span class="ot">&lt;-</span><span class="fu">t</span>(x.rt.dry)<span class="sc">%*%</span>fixed.management</span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>estimates[<span class="dv">2</span>,<span class="dv">1</span>]<span class="ot">&lt;-</span><span class="fu">t</span>(x.nt.wet)<span class="sc">%*%</span>fixed.management</span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a>estimates[<span class="dv">2</span>,<span class="dv">2</span>]<span class="ot">&lt;-</span><span class="fu">t</span>(x.nt.dry)<span class="sc">%*%</span>fixed.management</span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>estimates</span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a><span class="co">#same thing for the variance</span></span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>variance<span class="ot">&lt;-</span><span class="fu">matrix</span>(<span class="at">data =</span> <span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(variance)<span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"rt"</span>, <span class="st">"nt"</span>)</span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(variance)<span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"wet"</span>, <span class="st">"dry"</span>)</span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>variance[<span class="dv">1</span>,<span class="dv">1</span>]<span class="ot">&lt;-</span><span class="fu">t</span>(x.rt.wet)<span class="sc">%*%</span>management.cov<span class="sc">%*%</span>x.rt.wet</span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>variance[<span class="dv">1</span>,<span class="dv">2</span>]<span class="ot">&lt;-</span><span class="fu">t</span>(x.rt.dry)<span class="sc">%*%</span>management.cov<span class="sc">%*%</span>x.rt.dry</span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>variance[<span class="dv">2</span>,<span class="dv">1</span>]<span class="ot">&lt;-</span><span class="fu">t</span>(x.nt.wet)<span class="sc">%*%</span>management.cov<span class="sc">%*%</span>x.nt.wet</span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>variance[<span class="dv">2</span>,<span class="dv">2</span>]<span class="ot">&lt;-</span><span class="fu">t</span>(x.nt.dry)<span class="sc">%*%</span>management.cov<span class="sc">%*%</span>x.nt.dry</span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>variance</span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a><span class="co">#standard deviation</span></span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>sd<span class="ot">&lt;-</span><span class="fu">sqrt</span>(variance)</span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>sd</span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a><span class="co">#upper estimate and lower estimate</span></span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a>lower.estimates<span class="ot">&lt;-</span>estimates<span class="fl">-1.96</span><span class="sc">*</span>sd</span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a>upper.estimates<span class="ot">&lt;-</span>estimates<span class="fl">+1.96</span><span class="sc">*</span>sd</span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="st">"Mean.ch.cstock"</span><span class="ot">=</span>Mean.ch.cstock,</span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a>     <span class="st">"Estimates.LME"</span><span class="ot">=</span>estimates,</span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a>     <span class="st">"SDs.mean.ch.cstock"</span><span class="ot">=</span>SD.ch.cstock,</span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a>     <span class="st">"SD.LME"</span><span class="ot">=</span>sd,</span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a>     <span class="st">"lower.estimates.LME"</span><span class="ot">=</span>lower.estimates,</span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a>     <span class="st">"upper.estimates.LME"</span><span class="ot">=</span>upper.estimates)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="function" class="level1">
+<h1>Function</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="st">"SynFert.N2O.emissions.Regression"</span><span class="ot">&lt;-</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(<span class="at">mineralN.amount =</span> <span class="dv">75</span>, <span class="at">mineralN.amount.sd =</span> <span class="dv">5</span>, <span class="at">beta =</span> a, <span class="at">cov.beta =</span> b, <span class="at">MAPPET =</span> <span class="dv">1</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">nreps =</span> <span class="dv">10000</span>, <span class="at">iseed =</span> <span class="dv">230984</span>, <span class="at">return.option =</span> <span class="dv">1</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Script developed by: M. Carlson</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Originally developed: 3/2/2022</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Last updated:3/2/2022</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># script estimates N2O emissions (kg CO2 eq. per ha per year) from mineral N fertilization</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># based on LME model</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Note: Make sure that beta and cov.beta are loaded in R working session</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="do">####### Arguments</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># mineralN.amount       The amount of mineral N fertilizer added to soil (KG N per ha)</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># mineralN.amount.sd    Standard deviation of the N mineral fertilizer amount</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># MAPPET                Mean annual precipitation to potential evapotranspiration ratio</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># beta                  R object with betas from LME model</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># cov.beta              R object with covariance matrix for betas from LME model</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># nreps                 Number of Monte Carlo simulations</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># iseed                 Initial seed for random draws</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># return.option         1) list object with the emission mean and confidence intervals</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">#                       for N2O emissions, and 2) the full vector of all Monte Carlo</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">#                       simulations.</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="do">####### Begin Script</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="do">####### Set seed</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(iseed)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="do">####### Check validity of input variables</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># values equal to or greater than 0 are valid</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    check.mineralN.amount<span class="ot">&lt;-</span>mineralN.amount<span class="sc">&gt;=</span><span class="dv">0</span><span class="sc">&amp;</span>mineralN.amount<span class="sc">&lt;=</span><span class="dv">880</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="sc">!</span>check.mineralN.amount) {<span class="fu">stop</span>(<span class="st">"Mineral N amount is not valid."</span>)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {<span class="fu">cat</span>(<span class="st">"NOTE: Mineral N amount is valid."</span>)}</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    check.mineralN.amount.sd<span class="ot">&lt;-</span>mineralN.amount.sd<span class="sc">&gt;=</span><span class="dv">0</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="sc">!</span>check.mineralN.amount.sd) {<span class="fu">stop</span>(<span class="st">"Mineral N standard deviation is not valid."</span>)</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {<span class="fu">cat</span>(<span class="st">"NOTE: Mineral N standard deviation is valid."</span>)}</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    check.MAPPET<span class="ot">&lt;-</span>MAPPET<span class="sc">&gt;=</span><span class="fl">0.7</span><span class="sc">&amp;</span>MAPPET<span class="sc">&lt;=</span><span class="fl">3.3</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="sc">!</span>check.MAPPET) {<span class="fu">stop</span>(<span class="st">"MAP:PET ratio is not valid."</span>)</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span>{<span class="fu">cat</span>(<span class="st">"NOTE: MAP:PET ratio is valid."</span>)}</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># End Validity checks</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="do">##</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="do">####### Estimate direct N2O emissions using linear mixed effect model.</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Deterministic Calculation</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># estimate emissions and backtransform</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>    direct.emission.deterministic.ln<span class="ot">&lt;-</span>beta<span class="sc">%*%</span><span class="fu">t</span>(<span class="fu">cbind</span>(<span class="dv">1</span>, mineralN.amount, MAPPET))</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    direct.emission.deterministic<span class="ot">&lt;-</span>(<span class="fu">exp</span>(direct.emission.deterministic.ln))<span class="sc">*</span>(<span class="dv">44</span><span class="sc">/</span><span class="dv">28</span>)<span class="sc">*</span><span class="dv">298</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Probabilistic Calculation</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Simulate nreps of fertilizer amounts</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    mineralN.amount.sim <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(nreps, <span class="at">mean =</span> mineralN.amount,</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">sd =</span> mineralN.amount.sd)</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    <span class="co"># simulate nreps of beta parameters based on LME model</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>    <span class="co"># determine number of parameters</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>    numpar<span class="ot">&lt;-</span><span class="fu">length</span>(beta)</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute choleski decomposition</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>    M<span class="ot">&lt;-</span><span class="fu">t</span>(<span class="fu">chol</span>(cov.beta))</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>    <span class="co"># generate random normals</span></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>    z<span class="ot">&lt;-</span><span class="fu">matrix</span>(<span class="fu">rnorm</span>(nreps<span class="sc">*</span>numpar), numpar, nreps)</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>    <span class="co"># produce simulated betas</span></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>    sim.beta<span class="ot">&lt;-</span>M<span class="sc">%*%</span>z<span class="sc">+</span>beta</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>    <span class="co"># create results matrix</span></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>    direct.emission.sim.ln<span class="ot">&lt;-</span><span class="fu">matrix</span>(<span class="dv">0</span>, <span class="dv">1</span>, nreps)</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>    <span class="co">#simulate direct emissions</span></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (n <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nreps) {</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>    direct.emission.sim.ln[n]<span class="ot">&lt;-</span>sim.beta[,n]<span class="sc">%*%</span><span class="fu">t</span>(<span class="fu">cbind</span>(<span class="dv">1</span>, mineralN.amount.sim[n], MAPPET))  </span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>    <span class="co"># backtransform and convert into kg CO2 eq.</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>    direct.emission.sim<span class="ot">&lt;-</span>(<span class="fu">exp</span>(direct.emission.sim.ln)) <span class="sc">*</span> (<span class="dv">44</span><span class="sc">/</span><span class="dv">28</span>) <span class="sc">*</span> <span class="dv">298</span></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>    <span class="do">## End emission calculations</span></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>    <span class="do">####### Final Summary Calculations and Validity Checks</span></span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>    direct.emission.mean<span class="ot">&lt;-</span><span class="fu">mean</span>(direct.emission.sim)</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>    q.direct<span class="ot">&lt;-</span><span class="fu">quantile</span>(direct.emission.sim, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>    down.direct<span class="ot">&lt;-</span>q.direct[<span class="dv">1</span>]</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>    up.direct<span class="ot">&lt;-</span>q.direct[<span class="dv">2</span>]</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>    check.direct<span class="ot">&lt;-</span>(direct.emission.deterministic<span class="sc">&gt;=</span>down.direct) <span class="sc">&amp;</span></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>                  (direct.emission.deterministic<span class="sc">&lt;=</span>up.direct)</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="sc">!</span>check.direct) {</span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cat</span>(<span class="st">"Warning: Deterministic Solution for Direct Emissions is outside</span></span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a><span class="st">          of its respective confidence interval."</span>)</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(check.direct) {</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cat</span>(<span class="st">"NOTE: Deterministic Solution for Direct Emissions is within</span></span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a><span class="st">          its respective confidence interval."</span>)</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>    <span class="do">##</span></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a><span class="do">####### Return Statement</span></span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(return.option <span class="sc">==</span> <span class="dv">1</span>) {</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(<span class="fu">list</span>(<span class="st">"direct.N2O.emissions.kgCO2eq"</span> <span class="ot">=</span> direct.emission.mean,</span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"2.5percentile.direct.N2O.emissions"</span> <span class="ot">=</span> down.direct,</span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"97.5percentile.direct.N2O.emissions"</span> <span class="ot">=</span> up.direct))</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(return.option <span class="sc">==</span> <span class="dv">2</span>) {</span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(direct.emission.sim)</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {<span class="fu">stop</span>(<span class="st">"Return option is not valid."</span>)}</span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>    <span class="co">#</span></span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>    <span class="co">#End return</span></span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a><span class="do">####### End Script    </span></span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="fitting-n2o-model" class="level1">
+<h1>Fitting N2O Model</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read data from csv file</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fert.n2o.data<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">"FertN2Odata.csv"</span>, <span class="at">header =</span> T)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># points (x = fert.n2o.data$fert.n2odata, y = fert.n2o.data$emission.kgN2ONhayr)</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># load nlme package</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nlme)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># test for correlation in predictor variables</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(fert.n2o.data[,<span class="fu">c</span>(<span class="st">"fert.amt.kgha"</span>, <span class="st">"TEMP.C"</span>, <span class="st">"MAPPET"</span>, <span class="st">"PREC.MM"</span>)])</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Model Selection using AIC value and forward stepwise method</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>test.fit<span class="ot">&lt;-</span><span class="fu">lme</span>(emission.kgN2ONhayr<span class="sc">~</span>fert.amt.kgha, <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>ran.exp, </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> fert.n2o.data, <span class="at">method =</span> <span class="st">"ML"</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test.fit)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagnostic Plots, Residual Plot</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>resid<span class="ot">&lt;-</span><span class="fu">residuals</span>(test.fit)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(test.fit), resid) <span class="co"># fitted vs residual plot</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">0</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># qqplot cannot be tested due to lack of equality in variance</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Transformed data</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>fert.n2o.data<span class="sc">$</span>ln.emission.kgN2ONhayr<span class="ot">&lt;-</span><span class="fu">log</span>(fert.n2o.data<span class="sc">$</span>emission.kgN2ONhayr)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>test.fit<span class="ot">&lt;-</span><span class="fu">lme</span>(ln.emission.kgN2ONhayr<span class="sc">~</span>fert.amt.kgha, <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>ran.exp, </span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> fert.n2o.data, <span class="at">method =</span> <span class="st">"ML"</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test.fit)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagnostic Plots, Residual Plot</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>resid<span class="ot">&lt;-</span><span class="fu">residuals</span>(test.fit)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(test.fit), resid) <span class="co"># fitted vs residual plot</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">0</span>)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co"># QQ normal plot</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(resid)</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(resid)</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="co">#One Variable</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>test.fit<span class="ot">&lt;-</span><span class="fu">lme</span>(ln.emission.kgN2ONhayr<span class="sc">~</span>fert.amt.kgha, <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>ran.exp, </span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> fert.n2o.data, <span class="at">method =</span> <span class="st">"ML"</span>)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test.fit)</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>test.fit<span class="ot">&lt;-</span><span class="fu">lme</span>(ln.emission.kgN2ONhayr<span class="sc">~</span>TEMP.C, <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>ran.exp, </span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> fert.n2o.data, <span class="at">method =</span> <span class="st">"ML"</span>)</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test.fit)</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>test.fit<span class="ot">&lt;-</span><span class="fu">lme</span>(ln.emission.kgN2ONhayr<span class="sc">~</span>MAPPET, <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>ran.exp, </span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> fert.n2o.data, <span class="at">method =</span> <span class="st">"ML"</span>)</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test.fit)</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>test.fit<span class="ot">&lt;-</span><span class="fu">lme</span>(ln.emission.kgN2ONhayr<span class="sc">~</span>PREC.MM, <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>ran.exp, </span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> fert.n2o.data, <span class="at">method =</span> <span class="st">"ML"</span>)</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test.fit)</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Two Variables</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>test.fit<span class="ot">&lt;-</span><span class="fu">lme</span>(ln.emission.kgN2ONhayr<span class="sc">~</span>fert.amt.kgha<span class="sc">+</span>MAPPET, <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>ran.exp, </span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> fert.n2o.data, <span class="at">method =</span> <span class="st">"ML"</span>)</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test.fit)</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>test.fit<span class="ot">&lt;-</span><span class="fu">lme</span>(ln.emission.kgN2ONhayr<span class="sc">~</span>fert.amt.kgha<span class="sc">+</span>PREC.MM, <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>ran.exp, </span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> fert.n2o.data, <span class="at">method =</span> <span class="st">"ML"</span>)</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test.fit)</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>test.fit<span class="ot">&lt;-</span><span class="fu">lme</span>(ln.emission.kgN2ONhayr<span class="sc">~</span>fert.amt.kgha<span class="sc">+</span>TEMP.C, <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>ran.exp, </span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> fert.n2o.data, <span class="at">method =</span> <span class="st">"ML"</span>)</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test.fit)</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Three Variables</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="co"># don't need to test precip because it's highly correlated with MAPPET</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>test.fit<span class="ot">&lt;-</span><span class="fu">lme</span>(ln.emission.kgN2ONhayr<span class="sc">~</span>fert.amt.kgha<span class="sc">+</span>MAPPET<span class="sc">+</span>TEMP.C, <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>ran.exp, </span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> fert.n2o.data, <span class="at">method =</span> <span class="st">"ML"</span>)</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test.fit)</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Test interactions</span></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>test.fit<span class="ot">&lt;-</span><span class="fu">lme</span>(ln.emission.kgN2ONhayr<span class="sc">~</span>fert.amt.kgha<span class="sc">+</span>MAPPET<span class="sc">+</span>fert.amt.kgha<span class="sc">*</span>MAPPET, <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>ran.exp, </span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> fert.n2o.data, <span class="at">method =</span> <span class="st">"ML"</span>)</span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test.fit)</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a><span class="co"># Best fit model</span></span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>test.fit<span class="ot">&lt;-</span><span class="fu">lme</span>(ln.emission.kgN2ONhayr<span class="sc">~</span>fert.amt.kgha<span class="sc">+</span>MAPPET, <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>ran.exp, </span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> fert.n2o.data, <span class="at">method =</span> <span class="st">"ML"</span>)</span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test.fit)</span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract betas and covariance matrix to apply the model</span></span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>N2O.fixed<span class="ot">&lt;-</span><span class="fu">fixed.effects</span>(test.fit)</span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>N2O.cov.beta<span class="ot">&lt;-</span>test.fit<span class="sc">$</span>varFix</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> N2O.fixed</span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span> N2O.cov.beta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="execute-function" class="level1">
+<h1>Execute Function</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dryclimate<span class="ot">&lt;-</span><span class="fu">SynFert.N2O.emissions.Regression</span>( <span class="at">mineralN.amount =</span> <span class="dv">75</span>, <span class="at">mineralN.amount.sd =</span> <span class="dv">5</span>, </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                                                <span class="at">beta =</span> a, <span class="at">cov.beta =</span> b, <span class="at">MAPPET =</span> .<span class="dv">7</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">nreps =</span> <span class="dv">10000</span>, <span class="at">iseed =</span> <span class="dv">230984</span>, <span class="at">return.option =</span> <span class="dv">1</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>dryclimate</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>dryclimate2<span class="ot">&lt;-</span><span class="fu">SynFert.N2O.emissions.Regression</span>( <span class="at">mineralN.amount =</span> <span class="dv">75</span>, <span class="at">mineralN.amount.sd =</span> <span class="dv">5</span>, </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">beta =</span> a, <span class="at">cov.beta =</span> b, <span class="at">MAPPET =</span> .<span class="dv">7</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">nreps =</span> <span class="dv">10000</span>, <span class="at">iseed =</span> <span class="dv">230984</span>, <span class="at">return.option =</span> <span class="dv">2</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(dryclimate2)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>wetclimate<span class="ot">&lt;-</span><span class="fu">SynFert.N2O.emissions.Regression</span>( <span class="at">mineralN.amount =</span> <span class="dv">75</span>, <span class="at">mineralN.amount.sd =</span> <span class="dv">5</span>, <span class="at">beta =</span> a, </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>                                                <span class="at">cov.beta =</span> b, <span class="at">MAPPET =</span> <span class="dv">1</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>                                                <span class="at">nreps =</span> <span class="dv">10000</span>, <span class="at">iseed =</span> <span class="dv">230984</span>, <span class="at">return.option =</span> <span class="dv">1</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>wetclimate</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>wetclimate2<span class="ot">&lt;-</span><span class="fu">SynFert.N2O.emissions.Regression</span>( <span class="at">mineralN.amount =</span> <span class="dv">75</span>, <span class="at">mineralN.amount.sd =</span> <span class="dv">5</span>, <span class="at">beta =</span> a, </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">cov.beta =</span> b, <span class="at">MAPPET =</span> <span class="dv">1</span>,</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">nreps =</span> <span class="dv">10000</span>, <span class="at">iseed =</span> <span class="dv">230984</span>, <span class="at">return.option =</span> <span class="dv">2</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(wetclimate2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

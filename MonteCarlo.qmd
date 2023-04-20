@@ -1,0 +1,292 @@
+---
+title: "Advanced Monte Carlo"
+---
+
+# Function
+
+```{r, eval=FALSE}
+"SOC.function"<-
+  function(SOC.ref = 80, SOC.ref.sd = 36, area = 56890, area.sd = 2844.5, expert.file = "name",
+           cult.beta.file = "name", mgmt.beta.file = "name", input.beta.file = "name", 
+           cult.cov.file = "name", mgmt.cov.file = "name", input.cov.file = "name", 
+           x.cult.file = "name", x.mgmt.file = "name", x.input.file = "name", nexpert = 9, 
+           ncases = 6, strata = 1, d = 20, nreps = 10000, iseed = 230984, return.option=1, EF.ft = 1, EF.med.input = 1)
+# Script developed by M. Carlson
+# Originally developed: 9/27/2022
+# Last updated: 
+# script estimates historical Soil Carbon 
+# based on LME model that estimates emission factors
+#
+##### Arguments
+# reference soil carbon           from volcanic soils and warm temperate, moist
+# ref soil carbon uncertainty     + or - 90%
+# cropland area                   in ha
+# cropland area uncertainty       + or - 5%
+# d                               20 years
+# input data                      Expert data proportions
+# beta                            R object with betas from LME model
+# cov.beta                        R object with covariance matrix for betas from LME model
+# nreps                           Number of Monte Carlo simulations
+# iseed                           Initial seed for random draws
+# return.option            
+#
+##    
+##### Begin script
+  {
+##### Set seed
+    set.seed(iseed)
+    
+####### Import files
+    input.data<-read.csv(file = expert.file, header = F)
+    
+    cult.beta<-read.csv(file = cult.beta.file, header = F)
+    mgmt.beta<-read.csv(file = mgmt.beta.file, header = F)
+    input.beta<-read.csv(file = input.beta.file, header = F)
+    
+    cult.cov<-read.csv(file = cult.cov.file, header = F)
+    mgmt.cov<-read.csv(file = mgmt.cov.file, header = F)
+    input.cov<-read.csv(file = input.cov.file, header = F)
+    
+    x.cult<-read.csv(file = x.cult.file, header = F)
+    x.mgmt<-read.csv(file = x.mgmt.file, header = F)
+    x.input<-read.csv(file = x.input.file, header = F)
+    
+# ----------Probabilistic calculation ---------------
+
+####### Monte Carlo replicates
+    
+    ### simulate nreps of SOC ref
+    SOC.ref.sim<-rnorm(nreps, mean = SOC.ref, sd = SOC.ref.sd) 
+    SOC.ref.sim<-as.matrix(t(SOC.ref.sim))
+    
+    # check that reps are inside 2 sd
+    check.soc.ref<-(SOC.ref.sim >= SOC.ref-(2*SOC.ref.sd)) &
+                   (SOC.ref.sim <= SOC.ref+(2*SOC.ref.sd))
+    if(!check.soc.ref){
+      stop("Warning: Simulated soil carbon reference is outside of expected range.")
+    }
+    
+    ### simulate nreps of area
+    area.sim<-rnorm(nreps, mean = area, sd = area.sd) 
+    
+    # check
+    check.area<-(area.sim >= area-(2*area.sd)) &
+                (area.sim <= area+(2*area.sd))
+    if(!check.area){
+      stop("Warning: Simulated area is outside of expected range.")
+    }
+    
+    ### sample input data (2005 and 2020 together)
+    expert.draw<-input.data[sample(ncol(input.data), 
+                                     size = nreps, replace = TRUE)]
+    # check
+    check.expert<-sum(expert.draw[,1]) == (2*strata)
+    if(!check.expert){
+      stop("Problem with expert proportions not summing to 100%")
+    }
+    
+    # Combine area and expert proportion
+    area.prop.comb<-sweep(expert.draw, MARGIN=2, area.sim, `*`)
+    
+    # Check
+    check.prop.area<-area.prop.comb<=area
+    if(!check.prop.area){
+      stop("Proportion of area is not accurate")
+    }
+    
+######## Emission Factor draws
+    
+    # turn into vectors
+    
+    cult.beta<-c(cult.beta[,1])
+    mgmt.beta<-c(mgmt.beta[,1])
+    input.beta<-c(input.beta[,1])
+    
+    x.cult<-c(x.cult[,1])
+    
+    x.mgmt.w.r<-c(x.mgmt[,1])
+    x.mgmt.w.n<-c(x.mgmt[,2])
+    x.mgmt.d.r<-c(x.mgmt[,3])
+    x.mgmt.d.n<-c(x.mgmt[,4])
+    
+    x.input.w.l<-c(x.input[,1])
+    x.input.w.h<-c(x.input[,2])
+    x.input.c.l<-c(x.input[,3])
+    x.input.c.h<-c(x.input[,4])
+    
+    # determine number of parameters
+    numpar.cult<-length(cult.beta)
+    numpar.mgmt<-length(mgmt.beta)
+    numpar.input<-length(input.beta)
+
+    # compute Choleski decomposition
+    decomp.cult<-t(chol(cult.cov))
+    decomp.mgmt<-t(chol(mgmt.cov))
+    decomp.input<-t(chol(input.cov))
+    
+    # generate random normals
+    r.cult<-matrix(rnorm(nreps*numpar.cult), numpar.cult, nreps)
+    r.mgmt<-matrix(rnorm(nreps*numpar.mgmt), numpar.mgmt, nreps)
+    r.input<-matrix(rnorm(nreps*numpar.input), numpar.input, nreps)
+    
+    # produce simulated betas
+    cult.sim.beta<-(decomp.cult%*%r.cult)+cult.beta
+    mgmt.sim.beta<-(decomp.mgmt%*%r.mgmt)+mgmt.beta
+    input.sim.beta<-(decomp.input%*%r.input)+input.beta
+    
+    
+######## Emission factors
+    
+    # cultivation
+    x.cult.beta<-sweep(cult.sim.beta, MARGIN=1, x.cult, `*`)
+    ef.cult<-apply(x.cult.beta[,1:nreps], 2, sum)
+    ef.cult<-as.matrix(t(ef.cult))
+    
+    # management
+    x.mgmt.w.r.beta<-sweep(mgmt.sim.beta, MARGIN=1, x.mgmt.w.r, `*`)
+    ef.mgmt.w.r<-apply(x.mgmt.w.r.beta[,1:nreps], 2, sum)
+    ef.mgmt.w.r<-as.matrix(t(ef.mgmt.w.r))
+    
+    x.mgmt.w.n.beta<-sweep(mgmt.sim.beta, MARGIN=1, x.mgmt.w.n, `*`)
+    ef.mgmt.w.n<-apply(x.mgmt.w.n.beta, 2, sum)
+    ef.mgmt.w.n<-as.matrix(t(ef.mgmt.w.n))
+    
+    x.mgmt.d.r.beta<-sweep(mgmt.sim.beta, MARGIN=1, x.mgmt.d.r, `*`)
+    ef.mgmt.d.r<-apply(x.mgmt.d.r.beta[,1:nreps], 2, sum)
+    ef.mgmt.d.r<-as.matrix(t(ef.mgmt.d.r))
+    
+    x.mgmt.d.n.beta<-sweep(mgmt.sim.beta, MARGIN=1, x.mgmt.d.n, `*`)
+    ef.mgmt.d.n<-apply(x.mgmt.d.n.beta[,1:nreps], 2, sum)
+    ef.mgmt.d.n<-as.matrix(t(ef.mgmt.d.n))
+    
+    # input
+    x.input.w.l.beta<-sweep(input.sim.beta, MARGIN=1, x.input.w.l, `*`)
+    ef.input.w.l<-apply(x.input.w.l.beta[,1:nreps], 2, sum)
+    ef.input.w.l<-as.matrix(t(ef.input.w.l))
+    
+    x.input.w.h.beta<-sweep(input.sim.beta, MARGIN=1, x.input.w.h, `*`)
+    ef.input.w.h<-apply(x.input.w.h.beta[,1:nreps], 2, sum)
+    ef.input.w.h<-as.matrix(t(ef.input.w.h))
+    
+    x.input.c.l.beta<-sweep(input.sim.beta, MARGIN=1, x.input.c.l, `*`)
+    ef.input.c.l<-apply(x.input.c.l.beta[,1:nreps], 2, sum)
+    ef.input.c.l<-as.matrix(t(ef.input.c.l))
+    
+    x.input.c.h.beta<-sweep(input.sim.beta, MARGIN=1, x.input.c.h, `*`)
+    ef.input.c.h<-apply(x.input.c.h.beta[,1:nreps], 2, sum)
+    ef.input.c.h<-as.matrix(t(ef.input.c.h))
+    
+
+####### -------------- Calculations -------------------------
+
+    ### Low input full till
+    SOC.l.f<-matrix(0, nrow = 1, ncol = nreps)
+    for (s in (1:nreps)) {
+      SOC.l.f[,s]<-((SOC.ref.sim[,s]*EF.ft*ef.cult[,s]*ef.input.w.l[,s]*area.prop.comb[7,s])-
+                    (SOC.ref.sim[,s]*EF.ft*ef.cult[,s]*ef.input.w.l[,s]*area.prop.comb[1,s]))/d
+    }
+    
+    ### Low input no till
+    SOC.l.n<-matrix(0, nrow = 1, ncol = nreps)
+    for (p in (1:nreps)) {
+      SOC.l.n[,p]<-((SOC.ref.sim[,p]*ef.cult[,p]*ef.input.w.l[,p]*ef.mgmt.w.n[,p]*area.prop.comb[8,p])-
+                    (SOC.ref.sim[,p]*ef.cult[,p]*ef.input.w.l[,p]*ef.mgmt.w.n[,p]*area.prop.comb[2,p]))/d
+    }
+    
+    ### Medium input full till
+    SOC.m.f<-matrix(0, nrow = 1, ncol = nreps)
+    for (q in (1:nreps)) {
+      SOC.m.f[,q]<-((SOC.ref.sim[,q]*EF.ft*ef.cult[,q]*EF.med.input*area.prop.comb[9,q])-
+                    (SOC.ref.sim[,q]*EF.ft*ef.cult[,q]*EF.med.input*area.prop.comb[3,q]))/d
+    }
+    
+    ### Medium input no till
+    SOC.m.n<-matrix(0, nrow = 1, ncol = nreps)
+    for (u in (1:nreps)) {
+      SOC.m.n[,u]<-((SOC.ref.sim[,u]*ef.cult[,u]*EF.med.input*ef.mgmt.w.n[,u]*area.prop.comb[10,u])-
+                    (SOC.ref.sim[,u]*ef.cult[,u]*EF.med.input*ef.mgmt.w.n[,u]*area.prop.comb[4,u]))/d
+    }
+    
+    ### High input full till
+    SOC.h.f<-matrix(0, nrow = 1, ncol = nreps)
+    for (v in (1:nreps)) {
+      SOC.h.f[,v]<-((SOC.ref.sim[,v]*EF.ft*ef.cult[,v]*ef.input.w.h[,v]*area.prop.comb[11,v])-
+                    (SOC.ref.sim[,v]*EF.ft*ef.cult[,v]*ef.input.w.h[,v]*area.prop.comb[5,v]))/d
+    }
+    
+    ### High input no till
+    SOC.h.n<-matrix(0, nrow = 1, ncol = nreps)
+    for (x in (1:nreps)) {
+      SOC.h.n[,x]<-((SOC.ref.sim[,x]*ef.cult[,x]*ef.input.w.h[,x]*ef.mgmt.w.n[,x]*area.prop.comb[12,x])-
+                    (SOC.ref.sim[,x]*ef.cult[,x]*ef.input.w.h[,x]*ef.mgmt.w.n[,x]*area.prop.comb[6,x]))/d
+    }
+    
+####### Total results
+    SOC.total<-matrix(0, nrow = 1, ncol = nreps)
+    for (t in (1:nreps)) {
+      SOC.total[,t]<-SOC.l.f[,t]+SOC.l.n[,t]+SOC.m.f[,t]+SOC.m.n[,t]+SOC.h.f[,t]+SOC.h.n[,t]
+    }
+    
+    
+####### Mean and Confidence Intervals    
+    results<-matrix(0, nrow = 1, ncol = 3)
+    results[,1]<-mean(SOC.total)
+    q<-quantile(SOC.total, probs = c(.025,.975))
+    results[,2]<-q[1]
+    results[,3]<-q[2]
+    
+######## -------------- Return options------------------------------
+    
+    if(return.option == 1){
+      return(list("Mean change in mineral soils C stock for Island X between
+                  2005 and 2020 (C tonnes/year)" = results[,1], "2.5 percentile"
+                  = results[,2], "97.5 percentile" = results[,3]))
+    }
+    
+    if(return.option == 2){
+      return(hist(x=SOC.total, main = "Simulated change in soil organic carbon."))
+    }
+  
+####### End script    
+  }
+
+
+
+```
+
+# Function Call
+
+```{r, eval=FALSE}
+
+Inventory<-SOC.function(expert.file = "CropExpertProp.csv", cult.beta.file = "cult.beta.csv",
+                        mgmt.beta.file = "mgmt.beta.csv", input.beta.file = "input.beta.csv", 
+                        cult.cov.file = "cult.cov.csv", mgmt.cov.file = "mgmt.cov.csv",
+                        input.cov.file = "input.cov.csv", x.cult.file = "x.cult.csv",
+                        x.mgmt.file = "x.mgmt.csv", x.input.file = "x.input.csv", 
+                        return.option=1)
+
+Inventory2<-SOC.function(expert.file = "CropExpertProp.csv", cult.beta.file = "cult.beta.csv",
+                        mgmt.beta.file = "mgmt.beta.csv", input.beta.file = "input.beta.csv", 
+                        cult.cov.file = "cult.cov.csv", mgmt.cov.file = "mgmt.cov.csv",
+                        input.cov.file = "input.cov.csv", x.cult.file = "x.cult.csv",
+                        x.mgmt.file = "x.mgmt.csv", x.input.file = "x.input.csv", 
+                        return.option=2)
+  
+
+Projection2005.2025<-SOC.function(expert.file = "Crop2025.csv", cult.beta.file = "cult.beta.csv",
+                                    mgmt.beta.file = "mgmt.beta.csv", input.beta.file = "input.beta.csv", 
+                                    cult.cov.file = "cult.cov.csv", mgmt.cov.file = "mgmt.cov.csv",
+                                    input.cov.file = "input.cov.csv", x.cult.file = "x.cult.csv",
+                                    x.mgmt.file = "x.mgmt.csv", x.input.file = "x.input.csv", 
+                                    return.option=1)
+
+Projection2025.2040<-SOC.function(expert.file = "Crop2040.csv", cult.beta.file = "cult.beta.csv",
+                         mgmt.beta.file = "mgmt.beta.csv", input.beta.file = "input.beta.csv", 
+                         cult.cov.file = "cult.cov.csv", mgmt.cov.file = "mgmt.cov.csv",
+                         input.cov.file = "input.cov.csv", x.cult.file = "x.cult.csv",
+                         x.mgmt.file = "x.mgmt.csv", x.input.file = "x.input.csv", 
+                         return.option=1)
+
+
+
+```

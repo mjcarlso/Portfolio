@@ -8,29 +8,30 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
       - text: Agriculture
         menu:
+          - href: MineralFert.qmd
+            text: Mineral Fertilization Emissions
           - href: UreaEmissions.qmd
-            text: Urea Emissions Function
-          - href: example.qmd
-            text: Lesson 2
+            text: Urea Fertilization Emissions
+          - href: MonteCarlo.qmd
+            text: Advanced Monte Carlo
       - text: Transportation
         menu:
-          - href: example.qmd
-            text: Lesson 1
-          - href: example.qmd
-            text: Lesson 2
+          - href: Transport.qmd
+            text: Transportation Emissions
+          - href: GreenTransport.qmd
+            text: Green Transportation
       - text: Electricity
         menu:
-          - href: example.qmd
+          - href: Electricity1.qmd
             text: Lesson 1
-          - href: example.qmd
+          - href: Electricity2.qmd
             text: Lesson 2
       - text: Miscilaneous Skills
         menu:
-          - href: example.qmd
-            text: Lesson 1
+          - href: EmissionFactors.qmd
+            text: Emission Factors
           - href: example.qmd
             text: Lesson 2
 
