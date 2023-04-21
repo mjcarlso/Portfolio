@@ -1,3 +1,496 @@
 ---
 title: "Green Transportation"
 ---
+
+```{r, eval=FALSE}
+# read in csv's and check data
+
+Age<-read.csv("AgeClasses.csv")
+Education<-read.csv("Education.csv")
+Emissions<-read.csv("Emissions per Mile.csv")
+Gender<-read.csv("Gender.csv")
+Survey<-read.csv("SurveyResults.csv")
+Trip<-read.csv("TripPurpose.csv")
+TradeIn<-read.csv("Vehicle_Trade_in.csv")
+Type<-read.csv("VehicleType.csv")
+
+library(tidyverse)
+library(purrr)
+library(plyr)
+
+# Join together some data
+TypeSurvey<-full_join(Survey, Type)
+colnames(TypeSurvey)[9] <- "Vehicle_Type"
+SurveyEmissions<-full_join(TypeSurvey,Emissions, by = "Vehicle_Type")
+SurveyEmissions<-full_join(SurveyEmissions, Gender)
+SurveyEmissions<-full_join(SurveyEmissions, Education)
+SurveyEmissions<-full_join(SurveyEmissions, Age)
+
+# Daily emissions in MT
+SurveyEmissions$DailyEmissions<-SurveyEmissions$miles*SurveyEmissions$NumberOfTrips*
+                                  SurveyEmissions$kg.CO2.per.mile/1000
+# Annual
+SurveyEmissions$AnnualEmissions<-SurveyEmissions$DailyEmissions*313
+
+# Strata trends
+AgeAvg<-SurveyEmissions%>%
+  group_by(AgeCode)%>%
+  summarise_at(vars(DailyEmissions), list(name = mean))
+AgeAvg
+
+GenderAvg<-SurveyEmissions%>%
+  group_by(GenderCode)%>%
+  summarise_at(vars(DailyEmissions), list(name = mean))
+GenderAvg
+
+EducationAvg<-SurveyEmissions%>%
+  group_by(EducationCode)%>%
+  summarise_at(vars(DailyEmissions), list(name = mean))
+EducationAvg
+
+VehicleAvg<-SurveyEmissions%>%
+  group_by(Vehicle_Type)%>%
+  summarise_at(vars(DailyEmissions), list(name = mean))
+VehicleAvg
+
+PurposeAvg<-SurveyEmissions%>%
+  group_by(TripPurposeCode)%>%
+  summarise_at(vars(DailyEmissions), list(name = mean))
+PurposeAvg
+
+
+# DF with just buy back vehicles
+BuyBack<-SurveyEmissions%>%
+  filter(VehicleTypeCode == "SU" | VehicleTypeCode == "TR" | VehicleTypeCode == "SE")
+  
+# Check averages of buy back
+AgeAvg2<-BuyBack%>%
+  group_by(AgeCode)%>%
+  summarise_at(vars(DailyEmissions), list(name = mean))
+AgeAvg2
+
+GenderAvg2<-BuyBack%>%
+  group_by(GenderCode)%>%
+  summarise_at(vars(DailyEmissions), list(name = mean))
+GenderAvg2
+
+EducationAvg2<-BuyBack%>%
+  group_by(EducationCode)%>%
+  summarise_at(vars(DailyEmissions), list(name = mean))
+EducationAvg2
+
+PurposeAvg2<-BuyBack%>%
+  group_by(TripPurposeCode)%>%
+  summarise_at(vars(DailyEmissions), list(name = mean))
+PurposeAvg2
+
+# add price of buy back
+colnames(TradeIn)[1] <- "Vehicle_Type"
+
+BuyBack<-full_join(BuyBack, TradeIn)
+
+# weekly emissions (I am making the assumption that people drive the same amount 
+# on the weekend as they do during the week. While some people might not drive at all, many
+# people will likely be traveling more to get to recreational activities in the mountains.
+# I am making the assumption that these two behaviors will average out to weekday travel amounts.)
+# Assuming 2 weeks of vacation
+BuyBack$WeeklyEmissions<-BuyBack$DailyEmissions*7
+
+# What if EV
+BuyBack$IfEVDaily<-BuyBack$miles*BuyBack$NumberOfTrips*0.21/1000
+BuyBack$IfEVWeekly<-BuyBack$IfEVDaily*7
+BuyBack$EVAnnual<-BuyBack$IfEVDaily*313
+
+BuyBack$Reduction<-BuyBack$WeeklyEmissions-BuyBack$IfEVWeekly
+BuyBack$AnnualReduction<-BuyBack$AnnualEmissions-BuyBack$EVAnnual
+
+nreps = 1000
+
+# ----------------------- Weekly ----------------------
+# Vehicle type probability
+sampType<-function(){
+  test<-sample(BuyBack$ID.x, size = 108, replace = FALSE, prob = BuyBack$Pr_BuyBack_VehicleType)
+  test<-as.data.frame(test)
+  colnames(test)[1]<-"ID.x"
+  
+  test<-left_join(test, BuyBack)
+  
+  testcost<-sum(test$Cost)
+  testchange<-sum(test$Reduction)
+  results<-matrix(0, nrow = 1, ncol = 2)
+  results[1,1]<-testcost
+  results[1,2]<-testchange
+  print(results)
+}
+
+for (a in nreps) {
+  results<-rerun(nreps, sampType())
+  resultsType<-ldply(results, data.frame)
+}
+
+
+# Mean and CI
+#Type
+meanType<-mean(resultsType[,2])
+mcType<-mean(resultsType[,1])
+TypeQe<-quantile(resultsType[,2], probs = c(.025,.975))
+TypeQc<-quantile(resultsType[,1], probs = c(.025,.975))
+
+
+# Weekly cost
+typecost<-mcType/meanType
+
+
+# ------------------ Annual -------------
+sampTypeA<-function(){
+  test<-sample(BuyBack$ID.x, size = 107, replace = FALSE, prob = BuyBack$Pr_BuyBack_VehicleType)
+  test<-as.data.frame(test)
+  colnames(test)[1]<-"ID.x"
+  
+  test<-left_join(test, BuyBack)
+  
+  testcost<-sum(test$Cost)
+  testchange<-sum(test$AnnualReduction)
+  results<-matrix(0, nrow = 1, ncol = 2)
+  results[1,1]<-testcost/testchange
+  results[1,2]<-testchange
+  print(results)
+}
+
+
+for (a in nreps) {
+  results<-rerun(nreps, sampTypeA())
+  resultsType<-ldply(results, data.frame)
+}
+
+
+# Age probability
+sampAgeA<-function(){
+  test<-sample(BuyBack$ID.x, size = 107, replace = FALSE, prob = BuyBack$Pr_BuyBack_Age)
+  test<-as.data.frame(test)
+  colnames(test)[1]<-"ID.x"
+  
+  test<-left_join(test, BuyBack)
+  
+  testcost<-sum(test$Cost)
+  testchange<-sum(test$AnnualReduction)
+  results<-matrix(0, nrow = 1, ncol = 2)
+  results[1,1]<-testcost/testchange
+  results[1,2]<-testchange
+  print(results)
+}
+
+for (a in nreps) {
+  results<-rerun(nreps, sampAgeA())
+  resultsAge<-ldply(results, data.frame)
+}
+
+
+# Education probability
+sampEducationA<-function(){
+  test<-sample(BuyBack$ID.x, size = 107, replace = FALSE, prob = BuyBack$Pr_BuyBack_Education)
+  test<-as.data.frame(test)
+  colnames(test)[1]<-"ID.x"
+  
+  test<-left_join(test, BuyBack)
+  
+  testcost<-sum(test$Cost)
+  testchange<-sum(test$AnnualReduction)
+  results<-matrix(0, nrow = 1, ncol = 2)
+  results[1,1]<-testcost/testchange
+  results[1,2]<-testchange
+  print(results)
+}
+
+for (a in nreps) {
+  results<-rerun(nreps, sampEducationA())
+  resultsEducation<-ldply(results, data.frame)
+}
+
+# Gender probability
+sampGenderA<-function(){
+  test<-sample(BuyBack$ID.x, size = 107, replace = FALSE, prob = BuyBack$Pr_BuyBack_Gender)
+  test<-as.data.frame(test)
+  colnames(test)[1]<-"ID.x"
+  
+  test<-left_join(test, BuyBack)
+  
+  testcost<-sum(test$Cost)
+  testchange<-sum(test$AnnualReduction)
+  results<-matrix(0, nrow = 1, ncol = 2)
+  results[1,1]<-testcost/testchange
+  results[1,2]<-testchange
+  print(results)
+}
+
+for (a in nreps) {
+  results<-rerun(nreps, sampGenderA())
+  resultsGender<-ldply(results, data.frame)
+}
+
+# Mean and CI
+#Type
+meanTypeA<-mean(resultsType[,2])
+mcTypeA<-mean(resultsType[,1])
+TypeQeA<-quantile(resultsType[,2], probs = c(.025,.975))
+TypeQcA<-quantile(resultsType[,1], probs = c(.025,.975))
+
+#Age
+meanAgeA<-mean(resultsAge[,2])
+mcAgeA<-mean(resultsAge[,1])
+AgeQeA<-quantile(resultsAge[,2], probs = c(.025,.975))
+AgeQcA<-quantile(resultsAge[,1], probs = c(.025,.975))
+
+#Education
+meanEducationA<-mean(resultsEducation[,2])
+mcEducationA<-mean(resultsEducation[,1])
+EducationQeA<-quantile(resultsEducation[,2], probs = c(.025,.975))
+EducationQcA<-quantile(resultsEducation[,1], probs = c(.025,.975))
+
+#Gender
+meanGenderA<-mean(resultsGender[,2])
+mcGenderA<-mean(resultsGender[,1])
+GenderQeA<-quantile(resultsGender[,2], probs = c(.025,.975))
+GenderQcA<-quantile(resultsGender[,1], probs = c(.025,.975))
+
+
+# -------------------- SUV --------------------------------
+
+SUV<-BuyBack%>%
+  filter(Vehicle_Type == "SUV")
+
+# 90 vehicles
+
+
+sampSUV<-function(){
+  test<-sample(SUV$ID.x, size = 90, replace = FALSE)
+  test<-as.data.frame(test)
+  colnames(test)[1]<-"ID.x"
+  
+  test<-left_join(test, SUV)
+  
+  testcost<-sum(test$Cost)
+  testchange<-sum(test$AnnualReduction)
+  results<-matrix(0, nrow = 1, ncol = 2)
+  results[1,1]<-testcost/testchange
+  results[1,2]<-testchange
+  print(results)
+}
+
+for (a in nreps) {
+  results<-rerun(nreps, sampSUV())
+  resultsSUV<-ldply(results, data.frame)
+}
+
+# SUV mean and cost
+meanSUV<-mean(resultsSUV[,2])
+mcSUV<-mean(resultsSUV[,1])
+SUVQe<-quantile(resultsSUV[,2], probs = c(.025,.975))
+SUVQc<-quantile(resultsSUV[,1], probs = c(.025,.975))
+
+
+
+# Sedan
+
+Sedan<-BuyBack%>%
+  filter(Vehicle_Type == "Sedan")
+
+# 125 vehicles
+
+
+sampSedan<-function(){
+  test<-sample(Sedan$ID.x, size = 125, replace = FALSE)
+  test<-as.data.frame(test)
+  colnames(test)[1]<-"ID.x"
+  
+  test<-left_join(test, Sedan)
+  
+  testcost<-sum(test$Cost)
+  testchange<-sum(test$AnnualReduction)
+  results<-matrix(0, nrow = 1, ncol = 2)
+  results[1,1]<-testcost/testchange
+  results[1,2]<-testchange
+  print(results)
+}
+
+for (a in nreps) {
+  results<-rerun(nreps, sampSedan())
+  resultsSedan<-ldply(results, data.frame)
+}
+
+# SUV mean and cost
+meanSedan<-mean(resultsSedan[,2])
+mcSedan<-mean(resultsSedan[,1])
+SedanQe<-quantile(resultsSedan[,2], probs = c(.025,.975))
+SedanQc<-quantile(resultsSedan[,1], probs = c(.025,.975))
+
+
+# Truck
+
+Truck<-BuyBack%>%
+  filter(Vehicle_Type == "Truck")
+
+# 110 vehicles
+
+
+sampTruck<-function(){
+  test<-sample(Truck$ID.x, size = 110, replace = FALSE)
+  test<-as.data.frame(test)
+  colnames(test)[1]<-"ID.x"
+  
+  test<-left_join(test, Truck)
+  
+  testcost<-sum(test$Cost)
+  testchange<-sum(test$AnnualReduction)
+  results<-matrix(0, nrow = 1, ncol = 2)
+  results[1,1]<-testcost/testchange
+  results[1,2]<-testchange
+  print(results)
+}
+
+for (a in nreps) {
+  results<-rerun(nreps, sampTruck())
+  resultsTruck<-ldply(results, data.frame)
+}
+
+# SUV mean and cost
+meanTruck<-mean(resultsTruck[,2])
+mcTruck<-mean(resultsTruck[,1])
+TruckQe<-quantile(resultsTruck[,2], probs = c(.025,.975))
+TruckQc<-quantile(resultsTruck[,1], probs = c(.025,.975))
+```
+
+```{r, eval=F}
+# read in csv's and check data
+Emissions<-read.csv("Emissions per Mile.csv")
+Survey<-read.csv("SurveyResults.csv")
+Type<-read.csv("VehicleType.csv")
+
+
+library(tidyverse)
+
+# Join together some data
+TypeSurvey<-full_join(Survey, Type)
+colnames(TypeSurvey)[9] <- "Vehicle_Type"
+WC<-full_join(TypeSurvey,Emissions, by = "Vehicle_Type")%>%
+  filter(TripPurposeCode == "WC")%>%
+  filter(!Vehicle_Type == "Large Truck")
+
+
+# Businesses DF
+s<-data.frame("ID"=1:11503, "Type"="S", "Min"=1, "Max"=10, "propTC"=.009, "probPart"=.09)
+m<-data.frame("ID"=11504:15157, "Type"="M", "Min"=11, "Max"=30, "propTC"=.031, "probPart"=.12)
+l<-data.frame("ID"=15158:15660, "Type"="L", "Min"=31, "Max"=50, "propTC"=.064, "probPart"=.17)
+
+businesses<-rbind(s,m,l)
+
+# 100 companies can participate
+
+# nested for loop, select business then select number of people within each business
+
+
+# sample emission data using quantiles of number of people decided from nested for loop 
+# (can use replacement)
+# or sample the results from the for loop
+# no differentiated probability
+# subtract people already work commuting
+
+
+nreps = 1000
+m<-matrix(0, nrow = 100, ncol = 1)
+w<-matrix(0, nrow = 100, ncol = 1)
+people<-matrix(0, nrow = nreps, ncol = 1)
+for (a in 1:nreps) {
+  mn<-sample(businesses$ID, size = 100, replace = F, prob = businesses$probPart)
+  join<-businesses[businesses$ID %in% mn,]
+  for (b in 1:100) {
+    m[b,]<-sample(join[b,3]:join[b,4], size = 1)
+    w<-m-join[b,5]*m
+    w<-round(w)
+  }
+  people[a,1]<-sum(w)
+}
+
+
+# find emissions
+
+# Daily emissions in MT
+WC$DailyEmissions<-WC$miles*WC$NumberOfTrips*WC$kg.CO2.per.mile/1000
+# Just work week (with two weeks of vacay)
+WC$AnnualEmissions<-WC$DailyEmissions*250
+# Assume 2 days from home
+WC$AnnualWFH2<-WC$DailyEmissions*150
+WC$AnnualWFH3<-WC$DailyEmissions*100
+WC$AnnualWFH4<-WC$DailyEmissions*50
+WC$AnnualWFH5<-0
+
+
+# sample from Work Commuters
+
+# 2 days at home
+reduced2<-matrix(0, nrow = nreps, ncol = 2)
+for (c in 1:nreps) {
+  samp<-sample(WC$ID.x, size = people[c,], replace = T)
+  samp<-as.data.frame(samp)
+  colnames(samp)[1]<-"ID.x"
+  samp<-left_join(samp, WC, .keep_all =TRUE)
+  reduced2[c,1]<-sum(samp[,14])-sum(samp[,15])
+  reduced2[c,2]<-500000/(sum(samp[,14])-sum(samp[,15]))
+}
+
+mean2emissions<-mean(reduced2[,1])
+q2emissions<-quantile(reduced2[,1], probs = c(.025,.975))
+mean2cost<-mean(reduced2[,2])
+q2cost<-quantile(reduced2[,2], probs = c(.025,.975))
+
+
+# 3 days at home
+reduced3<-matrix(0, nrow = nreps, ncol = 2)
+for (c in 1:nreps) {
+  samp<-sample(WC$ID.x, size = people[c,], replace = T)
+  samp<-as.data.frame(samp)
+  colnames(samp)[1]<-"ID.x"
+  samp<-left_join(samp, WC, .keep_all =TRUE)
+  reduced3[c,1]<-sum(samp[,14])-sum(samp[,16])
+  reduced3[c,2]<-500000/(sum(samp[,14])-sum(samp[,16]))
+}
+
+mean3emissions<-mean(reduced3[,1])
+q3emissions<-quantile(reduced3[,1], probs = c(.025,.975))
+mean3cost<-mean(reduced3[,2])
+q3cost<-quantile(reduced3[,2], probs = c(.025,.975))
+
+
+# 4 days at home
+reduced4<-matrix(0, nrow = nreps, ncol = 2)
+for (c in 1:nreps) {
+  samp<-sample(WC$ID.x, size = people[c,], replace = T)
+  samp<-as.data.frame(samp)
+  colnames(samp)[1]<-"ID.x"
+  samp<-left_join(samp, WC, .keep_all =TRUE)
+  reduced4[c,1]<-sum(samp[,14])-sum(samp[,17])
+  reduced4[c,2]<-500000/(sum(samp[,14])-sum(samp[,17]))
+}
+
+mean4emissions<-mean(reduced4[,1])
+q4emissions<-quantile(reduced4[,1], probs = c(.025,.975))
+mean4cost<-mean(reduced4[,2])
+q4cost<-quantile(reduced4[,2], probs = c(.025,.975))
+
+
+# 5 days a week
+reduced5<-matrix(0, nrow = nreps, ncol = 2)
+for (c in 1:nreps) {
+  samp<-sample(WC$ID.x, size = people[c,], replace = T)
+  samp<-as.data.frame(samp)
+  colnames(samp)[1]<-"ID.x"
+  samp<-left_join(samp, WC, .keep_all =TRUE)
+  reduced5[c,1]<-sum(samp[,14])-sum(samp[,18])
+  reduced5[c,2]<-500000/(sum(samp[,14])-sum(samp[,18]))
+}
+
+mean5emissions<-mean(reduced5[,1])
+q5emissions<-quantile(reduced5[,1], probs = c(.025,.975))
+mean5cost<-mean(reduced5[,2])
+q5cost<-quantile(reduced5[,2], probs = c(.025,.975))
+```

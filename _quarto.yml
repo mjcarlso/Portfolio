@@ -22,18 +22,9 @@ website:
             text: Transportation Emissions
           - href: GreenTransport.qmd
             text: Green Transportation
-      - text: Electricity
-        menu:
-          - href: Electricity1.qmd
-            text: Lesson 1
-          - href: Electricity2.qmd
-            text: Lesson 2
-      - text: Miscilaneous Skills
-        menu:
-          - href: EmissionFactors.qmd
-            text: Emission Factors
-          - href: example.qmd
-            text: Lesson 2
+      - href: EmissionFactors.qmd
+        text: Emission Factors
+          
 
 format:
   html:
